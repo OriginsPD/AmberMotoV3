@@ -4,7 +4,7 @@ import FormConfig from "../config/FormConfig";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AssociateAuth from "../../api/Auth/AssociateAuth";
+import AssociateAuth from "../../api/auth/AssociateAuth";
 
 type AuthFormProps = {
 	isOpen: boolean;

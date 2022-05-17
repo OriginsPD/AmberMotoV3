@@ -1,5 +1,10 @@
 import React, { useReducer, createContext } from "react";
-import { ContextProp, FormBody, ReducerState } from "../../constants/Context";
+import {
+	ContextProp,
+	FormBody,
+	ReducerState,
+	ReducerStateProp,
+} from "../../constants/Context";
 
 type FormContextProps = {
 	state: typeof ReducerState;
@@ -8,6 +13,7 @@ type FormContextProps = {
 	RegisterForm: FormBody[];
 	resetInfo: () => void;
 	storeInfo: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	storeImage: (data: FileList | null) => void;
 	dispatch: React.Dispatch<ReducerAction>;
 };
 
@@ -18,6 +24,7 @@ export const FormContext = createContext<FormContextProps>(
 enum ACTIONS {
 	CREATE = "create-new-info",
 	LOAD = "load-bike-info",
+	IMAGE = "upload-bike-image",
 	CHANGE = "change-mode",
 	RESET = "rest-info",
 }
@@ -35,10 +42,10 @@ type ReducerAction =
 			payload: {
 				id: number;
 				employee_id: number;
-				brand_id: number;
-				category_id: number;
+				brand_id: string;
+				category_id: string;
 				bike_model: string;
-				rental_fee: number;
+				rental_fee: string;
 				availability: boolean;
 				image_path: string;
 				status: boolean;
@@ -60,6 +67,15 @@ type ReducerAction =
 			};
 	  }
 	| {
+			type: ACTIONS.IMAGE;
+			payload: {
+				name: any;
+				lastModified: any;
+				size: any;
+				type: any;
+			};
+	  }
+	| {
 			type: ACTIONS.RESET;
 	  };
 
@@ -74,6 +90,11 @@ const reducer = (state: typeof ReducerState, action: ReducerAction) => {
 			return {
 				...state,
 				...action.payload,
+			};
+		case ACTIONS.IMAGE:
+			return {
+				...state,
+				["image_path"]: action.payload,
 			};
 		case ACTIONS.RESET:
 			return {
@@ -92,6 +113,22 @@ const FormContextProvider = ({ children }: ContextProp) => {
 		const { name, value } = event.target;
 
 		dispatch({ type: ACTIONS.CREATE, payload: { key: name, value: value } });
+	};
+
+	const storeImage = (data: FileList | null) => {
+		const details = data?.[0];
+
+		// dispatch({
+		// 	type: ACTIONS.IMAGE,
+		// 	payload: {
+		// 		name: details?.name,
+		// 		lastModified: details?.lastModified,
+		// 		size: details?.size,
+		// 		type: details?.type,
+		// 	},
+		// });
+
+		console.log(details?.type);
 	};
 
 	const resetInfo = () => {
@@ -166,6 +203,7 @@ const FormContextProvider = ({ children }: ContextProp) => {
 				resetInfo,
 				loginForm,
 				RegisterForm,
+				storeImage,
 			}}
 		>
 			{children}

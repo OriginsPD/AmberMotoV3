@@ -6,7 +6,9 @@ const HomeLayout = () => {
 	return (
 		<div>
 			<Navbar />
-			<Outlet />
+			<div>
+				<Outlet />
+			</div>
 			<Footer />
 		</div>
 	);

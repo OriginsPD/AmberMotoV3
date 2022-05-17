@@ -13,7 +13,7 @@ const useToggle = () => {
 
 	// console.log(isOpen);
 
-	return { isOpen, toggleModal, closeModal };
+	return { isOpen, toggleModal, closeModal, setIsOpen };
 };
 
 export default useToggle;

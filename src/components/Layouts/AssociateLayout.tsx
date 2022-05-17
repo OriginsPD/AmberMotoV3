@@ -6,13 +6,15 @@ import { MenuAlt2Icon } from "@heroicons/react/outline";
 import { MenuAlt1Icon, SearchIcon } from "@heroicons/react/solid";
 
 import { documentTitle } from "../../gen/documentConfig";
-import AssociateAuth from "../../api/Auth/AssociateAuth";
+import AssociateAuth from "../../api/auth/AssociateAuth";
 import AssociateNav from "../Routes/Associate/AssociateNav";
 
 const AssociateLayout = () => {
 	const { logout } = AssociateAuth();
 
 	const location = useLocation();
+	const pageName = location?.pathname || "Dashboard";
+
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const userNavigation = [
@@ -25,7 +27,7 @@ const AssociateLayout = () => {
 		documentTitle("Associate");
 	}, []);
 
-	// console.log(location);
+	// console.log(pageName);
 
 	return (
 		<>
@@ -47,8 +49,8 @@ const AssociateLayout = () => {
 								<MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
 							</button>
 							<div className="flex flex-1 justify-between px-4 md:px-0">
-								<div className="flex flex-1">
-									<form>
+								<div className="my-4 flex w-full flex-1">
+									<form className="w-full">
 										<label htmlFor="search-field" className="sr-only">
 											Search
 										</label>
@@ -106,8 +108,10 @@ const AssociateLayout = () => {
 						<main className="flex-1">
 							<div className="py-6">
 								<div className="px-4 sm:px-6 md:px-0">
-									<h1 className="text-2xl font-semibold text-gray-900">
-										Dashboard
+									<h1 className="text-2xl font-semibold capitalize text-gray-900">
+										{pageName === "/Associate"
+											? "Dashboard"
+											: pageName.replace("/Associate/", "")}
 									</h1>
 								</div>
 								<div className="px-4 sm:px-6 md:px-0">

@@ -8,6 +8,8 @@ import {
 	BikeListProp,
 } from "../../constants/ApiConfig";
 
+import { ReducerState, ReducerStateProp } from "../../constants/Context";
+
 const BikeDetailApi = () => {
 	const navigate = useNavigate();
 	const { token } = useToken();
@@ -37,6 +39,34 @@ const BikeDetailApi = () => {
 		}
 	};
 
+	const BikeCreate = async (uploadFile: any) => {
+		var data = new FormData();
+		data.append("image_path", uploadFile, uploadFile.name);
+		data.append("brand_id", state.brand_id);
+		data.append("category_id", state.category_id);
+		data.append("bike_model", state.bike_model);
+		data.append("rental_fee", state.rental_fee);
+
+		const response = await fetch(`${accessHost}/bikeInfo`, {
+			...defaultRequest,
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				Accept: "application/json",
+				//"Content-Type": "application/json",
+			},
+			body: data,
+		});
+
+		const queryResponse = await response.json();
+
+		if (queryResponse.status === 200) {
+			console.log(queryResponse.image);
+		} else {
+			console.log("failed");
+		}
+	};
+
 	const BikeFind = async (id: undefined | string) => {
 		const response = await fetch(`${accessHost}/bikeInfo/${id}`, {
 			...defaultRequest,
@@ -60,7 +90,16 @@ const BikeDetailApi = () => {
 		}
 	};
 
-	const BikeUpdate = async (id: undefined | string) => {
+	const BikeUpdate = async (id: undefined | string, uploadFile: any) => {
+		var data = new FormData();
+		if (uploadFile) {
+			data.append("image_path", uploadFile, uploadFile.name);
+		}
+		data.append("brand_id", state.brand_id);
+		data.append("category_id", state.category_id);
+		data.append("bike_model", state.bike_model);
+		data.append("rental_fee", state.rental_fee);
+
 		const response = await fetch(`${accessHost}/bikeInfo/${id}`, {
 			...defaultRequest,
 			method: "PUT",
@@ -101,7 +140,14 @@ const BikeDetailApi = () => {
 		}
 	};
 
-	return { bikeDetailIndex, bikeList, BikeFind, BikeUpdate, BikeStatusUpdate };
+	return {
+		bikeDetailIndex,
+		bikeList,
+		BikeCreate,
+		BikeFind,
+		BikeUpdate,
+		BikeStatusUpdate,
+	};
 };
 
 export default BikeDetailApi;

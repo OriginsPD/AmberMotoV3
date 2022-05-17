@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Api
@@ -13,6 +13,7 @@ import useForms from "../../components/hooks/useForms";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { CloudUploadIcon } from "@heroicons/react/outline";
 
 const schema = yup.object({
 	brand_id: yup.string().required("Please Select a Brand"),
@@ -31,7 +32,31 @@ const BikeEdit = () => {
 
 	const { BikeFind, BikeUpdate } = BikeDetailApi();
 
-	const { state, storeInfo } = useForms();
+	const { state, storeInfo, resetInfo } = useForms();
+
+	const [preview, setPreview] = useState<any>();
+	const [selected, setSelectedFile] = useState<File>();
+
+	const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+		// const files = (event.target as HTMLInputElement).files || [];
+
+		const fileVal: FileList | null = event.target.files;
+		// setSelectedFile(value);
+
+		// storeImage(fileVal);
+		setPreview("");
+
+		if (fileVal) {
+			setSelectedFile(fileVal?.[0]);
+			const reader = new FileReader();
+			reader.onload = () => {
+				if (reader.readyState === 2) {
+					setPreview(reader.result);
+				}
+			};
+			reader.readAsDataURL(fileVal?.[0]);
+		}
+	};
 
 	const {
 		register,
@@ -43,8 +68,15 @@ const BikeEdit = () => {
 		resolver: yupResolver(schema),
 	});
 
+	const clearForm = () => {
+		clearErrors();
+		reset(state);
+		resetInfo();
+		setPreview("");
+	};
+
 	const onSubmit = () => {
-		BikeUpdate(id.id);
+		BikeUpdate(id.id, selected);
 	};
 
 	useEffect(() => {
@@ -169,46 +201,49 @@ const BikeEdit = () => {
 										</div>
 									</div>
 
-									<div className="col-span-full">
-										<label className="block text-sm font-medium text-gray-700">
-											Cover photo
-										</label>
-										<div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-											<div className="space-y-1 text-center">
-												<svg
-													className="mx-auto h-12 w-12 text-gray-400"
-													stroke="currentColor"
-													fill="none"
-													viewBox="0 0 48 48"
-													aria-hidden="true"
+									<div className="col-span-full flex space-x-2">
+										{preview ? (
+											<div className="h-40 w-full border ">
+												<label
+													htmlFor="Upload"
+													className="block text-center text-sm font-medium text-gray-700"
 												>
-													<path
-														d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-														strokeWidth={2}
-														strokeLinecap="round"
-														strokeLinejoin="round"
+													<img
+														className="inline-block h-40 w-[80%]  object-fill ring-2 ring-white"
+														src={preview}
+														alt=""
 													/>
-												</svg>
-												<div className="flex text-sm text-gray-600">
-													<label
-														htmlFor="file-upload"
-														className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-													>
-														<span>Upload a file</span>
-														<input
-															id="file-upload"
-															name="file-upload"
-															type="file"
-															className="sr-only"
-														/>
-													</label>
-													<p className="pl-1">or drag and drop</p>
-												</div>
-												<p className="text-xs text-gray-500">
-													PNG, JPG, GIF up to 10MB
-												</p>
+												</label>
 											</div>
-										</div>
+										) : (
+											<div className={`col-span-full w-full `}>
+												<label className="block text-right text-sm font-medium text-gray-700">
+													Upload Photo
+												</label>
+												<div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+													<div className="space-y-1 text-center">
+														<div className="flex text-sm text-gray-600">
+															<label
+																htmlFor="Upload"
+																className="flex w-full items-center justify-center text-center"
+															>
+																<CloudUploadIcon className="mx-auto h-12 w-12 cursor-pointer text-center text-gray-400 hover:text-blue-500" />
+															</label>
+														</div>
+														<p className="text-xs text-gray-500">
+															PNG, JPG, GIF up to 10MB
+														</p>
+													</div>
+												</div>
+											</div>
+										)}
+										<input
+											id="Upload"
+											{...register("fileUpload")}
+											type="file"
+											onChange={changeHandler}
+											className="sr-only"
+										/>
 									</div>
 								</div>
 							</div>

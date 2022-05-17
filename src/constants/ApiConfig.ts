@@ -18,6 +18,31 @@ export const defaultRequest: ApiRequestProps = {
 	},
 };
 
+export type LogState = {
+	id: number;
+	rental_id: number;
+	employee_id: number;
+	fee_paid: number;
+	percentage_earn: number;
+	created_at: string;
+	rental: {
+		id: number;
+		bike: {
+			bike_model: string;
+		};
+		user: {
+			username: string;
+		};
+	};
+};
+
+export type rentalStatusProp = {
+	employee_id: number;
+	bike_id: number;
+	bike_model: string;
+	total: number;
+};
+
 export type BikeListProp = {
 	id: number;
 	employee_id: number;
@@ -64,7 +89,11 @@ export type BikeDetailProp = {
 		status: boolean;
 		created_at: string;
 		updated_at: string;
-		personal_detail: {};
+		personal_detail: {
+			user_id: number;
+			address: string;
+			phone_number: number;
+		};
 	};
 	bike: {
 		id: number;

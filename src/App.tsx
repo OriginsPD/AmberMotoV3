@@ -24,6 +24,7 @@ import VehicleStatusTable from "./pages/Associate/VehicleStatusTable";
 
 import CheckAuth from "./auth/CheckAuth";
 import BikeEdit from "./pages/Associate/BikeEdit";
+import Wallet from "./pages/Associate/Wallet";
 
 documentBody();
 
@@ -44,6 +45,7 @@ const App = () => {
 						</Route>
 						<Route path="/Associate" element={<AssociateLayout />}>
 							<Route path="" element={<Index />} />
+							<Route path="wallet" element={<Wallet />} />
 							<Route path="client" element={<ClientAssociate />} />
 							<Route path="vehicleList" element={<VehicleListTable />} />
 							<Route path="vehicleStatus" element={<VehicleStatusTable />} />

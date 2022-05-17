@@ -8,26 +8,16 @@ import {
 	XCircleIcon,
 } from "@heroicons/react/outline";
 
+import { imageUrl } from "../../constants/ImageConfig";
+
 import { BikeDetailProp } from "../../constants/ApiConfig";
+import Spinner from "../loader/Spinner";
 
 const product = {
-	name: "Everyday Ruck Snack",
-	href: "#",
-	price: "$220",
-	description:
-		"Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.",
 	imageSrc:
 		"https://tailwindui.com/img/ecommerce-images/product-page-04-featured-product-shot.jpg",
 	imageAlt:
 		"Model wearing light green backpack with black canvas straps and front zipper pouch.",
-	breadcrumbs: [
-		{ id: 1, name: "Travel", href: "#" },
-		{ id: 2, name: "Bags", href: "#" },
-	],
-	sizes: [
-		{ name: "18L", description: "Perfect for a reasonable amount of snacks." },
-		{ name: "20L", description: "Enough room for a serious amount of snacks." },
-	],
 };
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -40,7 +30,10 @@ type BikeDetailCardProps = {
 };
 
 const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
-	// console.log(query?.penalties);
+	console.log(query);
+
+	let imageSrc = query ? imageUrl + query?.bike?.image_path : product.imageSrc;
+
 	return (
 		<div className="bg-white">
 			<div className="mx-auto max-w-2xl py-8 px-4 sm:py-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
@@ -76,7 +69,10 @@ const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
 							<div className="text-xl font-bold italic text-gray-600">
 								Address
 							</div>
-							<p className="text-base text-gray-500">{product.description}</p>
+							<p className="text-base text-gray-500">
+								{query?.user?.personal_detail?.address ??
+									"No Address Added as of Yet"}
+							</p>
 						</div>
 
 						<div className="mt-6 space-y-4">
@@ -134,14 +130,24 @@ const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
 				</div>
 
 				{/* Product image */}
-				<div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
-					<div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
-						<img
-							src={product.imageSrc}
-							alt={product.imageAlt}
-							className="h-full w-full object-cover object-center"
-						/>
-					</div>
+				<div
+					className={`mt-10 ${
+						query ? "" : "h-full"
+					} lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center`}
+				>
+					{query ? (
+						<div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
+							<img
+								src={imageSrc}
+								alt={product.imageAlt}
+								className="h-full w-full object-fill object-center"
+							/>
+						</div>
+					) : (
+						<div className="flex h-full w-full items-center justify-center bg-blue-400/10">
+							<Spinner />
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

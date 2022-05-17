@@ -1,7 +1,7 @@
 import useForms from "../hooks/useForms";
 
 import * as yup from "yup";
-import AssociateAuth from "../../api/Auth/AssociateAuth";
+import AssociateAuth from "../../api/auth/AssociateAuth";
 
 // Form Schema
 const RegisterSchema = yup.object({

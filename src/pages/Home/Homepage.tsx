@@ -13,9 +13,9 @@ const Homepage = () => {
 	}, []);
 	return (
 		<>
-			<section className="top-0 h-screen w-screen overflow-hidden bg-blue-800/50 lg:relative lg:flex lg:justify-between ">
+			<section className="h-screen w-screen overflow-hidden bg-blue-800/50 lg:relative lg:flex lg:justify-between ">
 				<img
-					className="absolute inset-0 h-full w-full object-cover object-[75%] opacity-25 sm:object-[25%] sm:opacity-100"
+					className="absolute inset-0 top-[4.7rem] h-full w-full overflow-hidden object-cover object-[75%] opacity-25 sm:object-[25%] sm:opacity-100 lg:top-0"
 					src="https://cdn.pixabay.com/photo/2021/12/13/09/46/moto-bikes-6867911_960_720.jpg"
 					alt="Couple on a bed with a dog"
 				/>
@@ -37,7 +37,7 @@ const Homepage = () => {
 						</p>
 					</div>
 				</div>
-				<div className="relative top-0 left-0 hidden lg:block">
+				<div className="relative  left-0 hidden lg:block">
 					<div className="relative top-5 left-6 mb-9 h-[45rem] w-[45rem] rotate-12 transform overflow-hidden border-8 border-b-8 border-white shadow-2xl">
 						<img
 							className=" z-10 h-full w-screen rounded object-cover object-center"

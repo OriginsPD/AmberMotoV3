@@ -51,9 +51,9 @@ const VehicleOverview = ({
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<div className="m-4 h-full max-h-full w-full max-w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+								<Dialog.Panel className="m-4 h-full max-h-full w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
 									<BikeDetailCard query={queryBike} />
-								</div>
+								</Dialog.Panel>
 							</Transition.Child>
 						</div>
 					</div>

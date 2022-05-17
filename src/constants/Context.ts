@@ -12,12 +12,12 @@ export const ReducerState = {
 	mode: false,
 	id: 0,
 	employee_id: 0,
-	brand_id: 0,
-	category_id: 0,
+	brand_id: "",
+	category_id: "",
 	bike_model: "",
-	rental_fee: 0,
+	rental_fee: "",
 	availability: false,
-	image_path: "",
+	image_path: {},
 	status: false,
 	created_at: "",
 	updated_at: "",
@@ -34,6 +34,40 @@ export const ReducerState = {
 		created_at: "",
 		updated_at: "",
 	},
+};
+
+export type ReducerStateProp = {
+	username: string;
+	email: string;
+	address: string;
+	phone: string;
+	password: string;
+	password_confirmation: string;
+	mode: boolean;
+	id: number;
+	employee_id: number;
+	brand_id: number;
+	category_id: number;
+	bike_model: string;
+	rental_fee: number;
+	availability: false;
+	image_path?: File;
+	status: false;
+	created_at: string;
+	updated_at: string;
+	brand: {
+		id: number;
+		brand_nm: string;
+		logo: string;
+		created_at: string;
+		updated_at: string;
+	};
+	category: {
+		id: number;
+		category_nm: string;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 enum FormAttributeName {

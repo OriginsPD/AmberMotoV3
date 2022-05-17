@@ -10,11 +10,14 @@ import {
 	UserIcon,
 	ViewListIcon,
 	XIcon,
+	ShieldCheckIcon,
 } from "@heroicons/react/outline";
+import NewBikeModal from "../../Modal/NewBikeModal";
+import useToggle from "../../hooks/useToggle";
 
 const navigation = [
 	{ name: "Dashboard", href: "/Associate", icon: HomeIcon },
-	{ name: "Wallet", href: "#", icon: CreditCardIcon },
+	{ name: "Wallet", href: "/Associate/wallet", icon: CreditCardIcon },
 	{ name: "Clients", href: "/Associate/client", icon: UserIcon },
 	{
 		name: "Vehicle Listing",
@@ -34,8 +37,14 @@ type AssociateNavProps = {
 };
 
 const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
+	const { isOpen, closeModal, toggleModal, setIsOpen } = useToggle();
 	return (
 		<>
+			<NewBikeModal
+				isOpen={isOpen}
+				toggleModal={toggleModal}
+				setIsOpen={setIsOpen}
+			/>
 			<Transition.Root show={sidebarOpen} as={Fragment}>
 				<Dialog
 					as="div"
@@ -84,14 +93,13 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 								</div>
 							</Transition.Child>
 							<div className="flex flex-shrink-0 items-center px-4">
-								<img
-									className="h-8 w-auto"
-									src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-									alt="Workflow"
-								/>
+								<div className="flex items-center justify-center space-x-2 text-2xl font-bold text-orange-500 drop-shadow-xl">
+									<ShieldCheckIcon className="h-8 w-auto text-orange-500" />
+									AmberMotors
+								</div>
 							</div>
 							<div className="mt-5 h-0 flex-1 overflow-y-auto scrollbar-hide">
-								<nav className="space-y-1 px-2">
+								<nav className="space-y-2 px-2">
 									{navigation.map((item) => (
 										<NavLink
 											key={item.name}
@@ -110,6 +118,7 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 									<div className=" w-full items-center space-x-2 py-8 text-center">
 										<button
 											type="button"
+											onClick={toggleModal}
 											className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 										>
 											<PlusIcon
@@ -134,14 +143,16 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 				{/* Sidebar component, swap this element with another sidebar if you like */}
 				<div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5 scrollbar-hide">
 					<div className="flex flex-shrink-0 items-center px-4">
-						<img
-							className="h-8 w-auto"
-							src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-							alt="Workflow"
-						/>
+						<div className="flex-col items-center justify-center space-x-2 text-2xl font-bold text-orange-500 drop-shadow-xl">
+							<div className="flex">
+								<ShieldCheckIcon className="h-8 w-auto text-orange-500" />
+								AmberMotors
+							</div>
+							<div className="text-right text-xs italic">Associate Mode</div>
+						</div>
 					</div>
 					<div className="mt-5 flex flex-grow flex-col">
-						<nav className="flex-1 space-y-1 px-2 pb-4">
+						<nav className="flex-1 space-y-3 px-2 pb-4">
 							{navigation.map((item) => (
 								<NavLink
 									key={item.name}
@@ -160,6 +171,7 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 							<div className=" w-full items-center space-x-2 py-8 text-center">
 								<button
 									type="button"
+									onClick={toggleModal}
 									className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 								>
 									<PlusIcon
