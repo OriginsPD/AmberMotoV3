@@ -32,6 +32,7 @@ const AuthForm = ({ isOpen, toggleModal }: AuthFormProps) => {
 	const onSubmit = () => {
 		loginAssociate();
 		clearForm();
+		toggleModal();
 	};
 
 	useEffect(() => {

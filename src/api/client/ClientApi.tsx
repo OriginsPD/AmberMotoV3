@@ -43,8 +43,8 @@ const ClientApi = () => {
 			...defaultRequest,
 			method: "GET",
 			headers: {
-				Authorization: `Bearer ${token}`,
-				Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+			Accept: "application/json",
 				"Content-Type": "application/json",
 			},
 		});

@@ -18,6 +18,23 @@ export const defaultRequest: ApiRequestProps = {
 	},
 };
 
+export type EmployeeProps = {
+	id: 1;
+	active_flg: boolean;
+	created_at: string;
+	user: {
+		id: 16;
+		username: string;
+		email: string;
+		status: boolean;
+		personal_detail: {
+			address: string;
+			phone_number: number;
+			created_at: string;
+		} | null;
+	};
+};
+
 export type LogState = {
 	id: number;
 	rental_id: number;

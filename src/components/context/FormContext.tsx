@@ -76,6 +76,13 @@ type ReducerAction =
 			};
 	  }
 	| {
+			type: ACTIONS.CHANGE;
+			payload: {
+				key: string;
+				value: number | boolean;
+			};
+	  }
+	| {
 			type: ACTIONS.RESET;
 	  };
 
@@ -90,6 +97,11 @@ const reducer = (state: typeof ReducerState, action: ReducerAction) => {
 			return {
 				...state,
 				...action.payload,
+			};
+		case ACTIONS.CHANGE:
+			return {
+				...state,
+				[action.payload.key]: action.payload.value,
 			};
 		case ACTIONS.IMAGE:
 			return {

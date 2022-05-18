@@ -1,26 +1,17 @@
-import { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const CheckAuth = () => {
-	let authInfoString: string | null = "";
+	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const isAuthState = localStorage.getItem("isAuth");
 
 	useEffect(() => {
-		authInfoString = localStorage.getItem("authInfo");
-	}, []);
+		let authState = isAuthState ? JSON.parse(isAuthState) : false;
+		setIsAuth(authState);
+	}, [isAuthState]);
 
-	let authInfo: any = authInfoString ? JSON.parse(authInfoString) : null;
+	console.log(isAuth);
 
-	//console.log(authInfo?.role_user.role_id);
-
-	return Object.keys(authInfo).length > 0 ? (
-		authInfo?.role_user.role_id == 2 ? (
-			<Outlet />
-		) : (
-			<Outlet />
-		)
-	) : (
-		<Navigate to="/" />
-	);
+	return { isAuth };
 };
 
 export default CheckAuth;

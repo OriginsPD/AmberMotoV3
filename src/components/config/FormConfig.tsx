@@ -30,16 +30,24 @@ const LoginSchema = yup.object({
 });
 
 const FormConfig = () => {
-	const { ACTIONS, loginForm, RegisterForm, storeInfo, resetInfo, state } =
-		useForms();
+	const {
+		ACTIONS,
+		loginForm,
+		RegisterForm,
+		storeInfo,
+		dispatch,
+		resetInfo,
+		state,
+	} = useForms();
 	const { registerAssociate } = AssociateAuth();
 
 	const formRegister = () => {
-		state.mode ? console.log("miss") : registerAssociate();
+		registerAssociate();
 	};
 
 	return {
 		ACTIONS,
+		state,
 
 		// Form Body
 		loginForm,
@@ -49,6 +57,7 @@ const FormConfig = () => {
 		storeInfo,
 		resetInfo,
 		formRegister,
+		dispatch,
 
 		// Schema
 		RegisterSchema,

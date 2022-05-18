@@ -6,6 +6,7 @@ import { documentTitle } from "../../../gen/documentConfig";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowCircleUpIcon } from "@heroicons/react/solid";
+import { DocumentDownloadIcon } from "@heroicons/react/outline";
 
 // Style
 const divStyle: CSSProperties = {
@@ -14,8 +15,16 @@ const divStyle: CSSProperties = {
 
 const AuthRegister = () => {
 	const { user } = useParams() as any;
-	const { RegisterSchema, RegisterForm, storeInfo, formRegister } =
-		FormConfig();
+	const {
+		RegisterSchema,
+		RegisterForm,
+		storeInfo,
+		formRegister,
+		dispatch,
+		ACTIONS,
+		state,
+		resetInfo,
+	} = FormConfig();
 
 	const {
 		register,
@@ -27,11 +36,29 @@ const AuthRegister = () => {
 
 	const onSubmit = () => {
 		formRegister();
+		resetInfo();
+		reset(state);
 	};
 
 	useEffect(() => {
+		reset(state);
+	}, [state]);
+
+	useEffect(() => {
 		documentTitle(`${user} Login`);
+		if (user === "Associate") {
+			dispatch({
+				type: ACTIONS.CHANGE,
+				payload: { key: "mode", value: false },
+			});
+		} else {
+			dispatch({
+				type: ACTIONS.CHANGE,
+				payload: { key: "mode", value: true },
+			});
+		}
 	}, []);
+
 	return (
 		<div>
 			<div className="relative overflow-hidden bg-sky-700 pb-32">
@@ -106,7 +133,7 @@ const AuthRegister = () => {
 								className="inline-flex  rounded-md
 							 border border-transparent bg-green-600 px-4 py-2  text-center text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
 							>
-								<ArrowCircleUpIcon
+								<DocumentDownloadIcon
 									className="-ml-1 mr-2 h-5 w-5"
 									aria-hidden="true"
 								/>

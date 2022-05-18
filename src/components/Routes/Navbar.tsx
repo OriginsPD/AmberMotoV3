@@ -7,15 +7,20 @@ import {
 	LogoutIcon,
 	ShieldCheckIcon,
 } from "@heroicons/react/outline";
-import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { MenuIcon } from "@heroicons/react/solid";
 
 // Hooks
 import useToggle from "../hooks/useToggle";
 
 // Form Portal
 import AuthForm from "../Modal/AuthForm";
+import CheckAuth from "../../auth/CheckAuth";
+import CustomerDrop from "./dropdown/CustomerDrop";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+	const { isAuth } = CheckAuth();
+	const { state } = useAuth();
 	const { isOpen, toggleModal } = useToggle();
 
 	const navigation = [
@@ -54,22 +59,29 @@ const Navbar = () => {
 						</nav>
 
 						<div className="hidden flex-1 items-center justify-end space-x-4 sm:flex">
-							<button
-								type="button"
-								className="flex items-center space-x-1 rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500"
-								onClick={toggleModal}
-							>
-								<LoginIcon className="h-4 w-auto" />
-								<span>Log in</span>
-							</button>
-
-							<NavLink
-								className="flex items-center space-x-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white"
-								to="/join"
-							>
-								<LogoutIcon className="h-4 w-auto" />
-								<span>Sign up</span>
-							</NavLink>
+							{!state.isAuth ? (
+								<>
+									<button
+										type="button"
+										className="flex items-center space-x-1 rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500"
+										onClick={toggleModal}
+									>
+										<LoginIcon className="h-4 w-auto" />
+										<span>Log in</span>
+									</button>
+									<NavLink
+										className="flex items-center space-x-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white"
+										to="/join"
+									>
+										<LogoutIcon className="h-4 w-auto" />
+										<span>Sign up</span>
+									</NavLink>
+								</>
+							) : (
+								<>
+									<CustomerDrop />
+								</>
+							)}
 						</div>
 						<Menu
 							as="div"

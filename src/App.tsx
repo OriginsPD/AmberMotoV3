@@ -22,9 +22,10 @@ import VehicleListTable from "./pages/Associate/VehicleListTable";
 import AuthContextProvider from "./components/context/AuthContext";
 import VehicleStatusTable from "./pages/Associate/VehicleStatusTable";
 
-import CheckAuth from "./auth/CheckAuth";
 import BikeEdit from "./pages/Associate/BikeEdit";
 import Wallet from "./pages/Associate/Wallet";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminLayout from "./components/Layouts/AdminLayout";
 
 documentBody();
 
@@ -34,7 +35,6 @@ const App = () => {
 			<AuthContextProvider>
 				<FormContextProvider>
 					<Routes>
-						{/* <Route element={<CheckAuth />}> */}
 						<Route element={<HomeLayout />}>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/join" element={<AuthIndex />} />
@@ -51,7 +51,9 @@ const App = () => {
 							<Route path="vehicleStatus" element={<VehicleStatusTable />} />
 							<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
 						</Route>
-						{/* </Route> */}
+						<Route path="/Admin" element={<AdminLayout />}>
+							<Route path="" element={<Dashboard />} />
+						</Route>
 					</Routes>
 				</FormContextProvider>
 			</AuthContextProvider>
