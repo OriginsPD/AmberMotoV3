@@ -1,57 +1,52 @@
-import { EmployeeList } from "../../api/employee/EmployeeApi";
-
-import { EmployeeProps } from "../../constants/ApiConfig";
-
-import { documentTitle } from "../../gen/documentConfig";
+import { useEffect, useState } from "react";
 
 import ReactPaginate from "react-paginate";
-import { ChevronRightIcon } from "@heroicons/react/outline";
-import { ChevronLeftIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+
+// Configuration
+import { LogListProp } from "../../constants/ApiConfig";
+
+// Api
+import { getAmberPayList } from "../../api/payment/AmberPayLogApi";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import RaceLoader from "../../components/loader/RaceLoader";
 
-const EmployeeTable = () => {
-	const [pageCount, setPageCount] = useState(0);
-	const [currentEmployee, setCurrentEmployee] = useState<EmployeeProps[]>(
-		{} as EmployeeProps[]
-	);
+var formatter = new Intl.NumberFormat("en-US", {
+	style: "currency",
+	currency: "USD",
+	maximumFractionDigits: 0,
 
-	const { employee } = EmployeeList();
+	// These options are needed to round to whole numbers if that's what you want.
+	//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+	//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+const SalesLogTable = () => {
+	const { isLoaded, logList } = getAmberPayList();
+	const [pageCount, setPageCount] = useState(0);
+	const [currentLogList, setCurrentLogList] = useState<LogListProp[]>([]);
 
 	useEffect(() => {
-		documentTitle("Admin");
-		setPageCount(Math.ceil(Object.keys(employee).length / 5 - 1));
-		setCurrentEmployee(Object.values(employee).slice(5, 10));
-	}, [employee]);
+		setPageCount(logList.length / 5 - 1);
+		setCurrentLogList(logList.slice(5, 10));
+	}, [logList]);
 
-	const handleClick = async (data: { selected: any }) => {
+	const handleClick = async (data: { selected: number }) => {
 		let currentPage = data.selected + 1;
 
-		// console.log(currentPage);
 		let firstPageIndex = currentPage * 5;
 		let lastPageIndex = firstPageIndex + 5;
 
-		setCurrentEmployee(
-			Object.values(employee).slice(firstPageIndex, lastPageIndex)
-		);
-
-		// console.log(currentEmployee);
+		setCurrentLogList(logList.slice(firstPageIndex, lastPageIndex));
 	};
-
-	// console.log(typeof pageCount);
 
 	return (
 		<>
-			<div className="px-4 py-4 sm:px-6 lg:px-8">
+			<div className="px-4 sm:px-6 lg:px-8">
 				<div className="sm:flex sm:items-center">
 					<div className="sm:flex-auto">
-						<h1 className="text-xl font-semibold text-gray-900">
-							All Employee's Information
-						</h1>
-						<p className="mt-2 text-sm text-gray-700">
-							A list of all the employees including their name, address, email
-							and status.
+						<h1 className="text-xl font-semibold text-gray-900">Sales Log</h1>
+						<p className="mt-2 text-sm capitalize text-gray-700">
+							A Log of all Sales for employees
 						</p>
 					</div>
 				</div>
@@ -65,36 +60,36 @@ const EmployeeTable = () => {
 											scope="col"
 											className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
 										>
-											Employee Name
+											Employee
 										</th>
 										<th
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Email
+											Bike Model
 										</th>
 										<th
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Address
+											Fee paid
 										</th>
 										<th
 											scope="col"
-											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
+											className="py-3.5 px-3 text-right text-sm font-semibold text-gray-900"
 										>
-											Status
+											Percentage Earn
 										</th>
-										<th
+										{/* <th
 											scope="col"
 											className="relative py-3.5 pl-3 pr-4 sm:pr-6 md:pr-0"
 										>
 											<span className="sr-only">View</span>
-										</th>
+										</th> */}
 									</tr>
 								</thead>
 								<tbody className="divide-y divide-gray-200">
-									{Object.keys(employee).length == 0 ? (
+									{!isLoaded ? (
 										<tr>
 											<td
 												colSpan={5}
@@ -105,36 +100,40 @@ const EmployeeTable = () => {
 												</div>
 											</td>
 										</tr>
+									) : logList.length == 0 ? (
+										<tr>
+											<td
+												colSpan={5}
+												className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-400 sm:pl-6 md:pl-0"
+											>
+												<div className="flex w-full items-center justify-center pt-4">
+													No Payment Log Found
+												</div>
+											</td>
+										</tr>
 									) : (
-										Object.values(currentEmployee).map((person) => (
-											<tr key={person.id}>
+										logList.map((log) => (
+											<tr key={log.id}>
 												<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
-													{person.user.username}
+													{log.employee.user.username}
 												</td>
 												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-													{person.user.email}
+													{log.rental.bike.bike_model}
 												</td>
-												<td className="w-10/12 whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
-													{person.user.personal_detail?.address ??
-														"No Address Added"}
+												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+													{formatter.format(log.fee_paid)}
 												</td>
-												<td
-													className={`${
-														person.active_flg
-															? "text-green-500"
-															: "text-red-500"
-													} whitespace-nowrap py-2 px-3 text-center text-sm font-medium`}
-												>
-													{person.active_flg ? "Active" : "InActive"}
+												<td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+													{log.percentage_earn * 100} %
 												</td>
-												<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
-													<NavLink
-														to="#"
+												{/* <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
+													<a
+														href="#"
 														className="text-indigo-600 hover:text-indigo-900"
 													>
-														View<span className="sr-only">, {person.id}</span>
-													</NavLink>
-												</td>
+														View<span className="sr-only">, {log.id}</span>
+													</a>
+												</td> */}
 											</tr>
 										))
 									)}
@@ -164,7 +163,6 @@ const EmployeeTable = () => {
 								</div>
 							</div>
 						</div>
-                        
 					</div>
 				</div>
 			</div>
@@ -172,4 +170,4 @@ const EmployeeTable = () => {
 	);
 };
 
-export default EmployeeTable;
+export default SalesLogTable;

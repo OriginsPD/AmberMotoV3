@@ -32,7 +32,7 @@ const EmployeeApi = () => {
 			return queryResponse;
 		};
 		fetchEmployee();
-	}, []);
+	}, [token]);
 
 	return { employee };
 };

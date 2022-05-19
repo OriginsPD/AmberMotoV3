@@ -9,7 +9,7 @@ const CheckAuth = () => {
 		setIsAuth(authState);
 	}, [isAuthState]);
 
-	console.log(isAuth);
+	// console.log(isAuth);
 
 	return { isAuth };
 };

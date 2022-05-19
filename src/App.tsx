@@ -26,6 +26,9 @@ import BikeEdit from "./pages/Associate/BikeEdit";
 import Wallet from "./pages/Associate/Wallet";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminLayout from "./components/Layouts/AdminLayout";
+import RentalTable from "./pages/admin/RentalTable";
+import SalesLogTable from "./pages/admin/SalesLogTable";
+import IncomeStats from "./pages/admin/IncomeStats";
 
 documentBody();
 
@@ -53,6 +56,9 @@ const App = () => {
 						</Route>
 						<Route path="/Admin" element={<AdminLayout />}>
 							<Route path="" element={<Dashboard />} />
+							<Route path="rentals" element={<RentalTable />} />
+							<Route path="salesLog" element={<SalesLogTable />} />
+							<Route path="income" element={<IncomeStats />} />
 						</Route>
 					</Routes>
 				</FormContextProvider>

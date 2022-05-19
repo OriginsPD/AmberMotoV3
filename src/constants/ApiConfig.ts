@@ -18,6 +18,85 @@ export const defaultRequest: ApiRequestProps = {
 	},
 };
 
+export type RentalState = {
+	id: number;
+	user_id: number;
+	employee_id: number;
+	bike_id: number;
+	payment_fee: number;
+	payment_status: false;
+	rental_status: boolean;
+	start_date: string;
+	end_date: string;
+	created_at: string;
+	bike: {
+		id: number;
+		employee_id: number;
+		brand_id: number;
+		category_id: number;
+		bike_model: string;
+		rental_fee: number;
+		availability: boolean;
+		image_path: string;
+		status: boolean;
+	};
+	employee: {
+		id: number;
+		active_flg: boolean;
+		user: {
+			id: number;
+			username: string;
+			email: string;
+		};
+	};
+	user: {
+		username: string;
+		email: string;
+		status: boolean;
+		personal_detail: {
+			user_id: number;
+			address: string;
+			phone_number: number;
+		};
+	};
+};
+
+export type LogListProp = {
+	id: number;
+	rental_id: number;
+	employee_id: number;
+	fee_paid: number;
+	total: number;
+	incomeTotal: number;
+	percentage_earn: number;
+	employee: {
+		user: {
+			username: string;
+			email: string;
+		};
+	};
+	rental: {
+		id: number;
+		user_id: number;
+		employee_id: number;
+		bike_id: number;
+		payment_fee: number;
+		payment_status: boolean;
+		rental_status: boolean;
+		start_date: string;
+		end_date: string;
+
+		bike: {
+			bike_model: string;
+			rental_fee: number;
+		};
+		user: {
+			username: number;
+			email: number;
+		};
+	};
+};
+
 export type EmployeeProps = {
 	id: 1;
 	active_flg: boolean;

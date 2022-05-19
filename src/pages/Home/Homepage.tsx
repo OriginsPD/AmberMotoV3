@@ -7,13 +7,20 @@ import { documentTitle } from "../../gen/documentConfig";
 // Pages Section
 import Advertisement from "./Advertisement";
 
+const divStyle: CSSProperties = {
+	clipPath: "polygon(100% 0, 100% 92%, 50% 100%, 0 92%, 0 0, 46% 0)",
+};
+
 const Homepage = () => {
 	useEffect(() => {
 		documentTitle("Home");
 	}, []);
 	return (
 		<>
-			<section className="h-screen w-screen overflow-hidden bg-blue-800/50 lg:relative lg:flex lg:justify-between ">
+			<section
+				className="h-screen w-screen overflow-hidden bg-blue-800/50 lg:relative lg:flex lg:justify-between "
+				style={divStyle}
+			>
 				<img
 					className="absolute inset-0 top-[4.7rem] h-full w-full overflow-hidden object-cover object-[75%] opacity-25 sm:object-[25%] sm:opacity-100 lg:top-0"
 					src="https://cdn.pixabay.com/photo/2021/12/13/09/46/moto-bikes-6867911_960_720.jpg"

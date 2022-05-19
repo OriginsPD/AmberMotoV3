@@ -10,6 +10,17 @@ const AssociateAuth = () => {
 	const { token } = useToken();
 	const { state } = useForms();
 
+	const checkRoleStatus = async (role: number, data: any) => {
+		authorize(data);
+		role
+			? role == 1
+				? navigate("/", { replace: true })
+				: role == 2
+				? navigate("/Associate", { replace: true })
+				: navigate("/Admin", { replace: true })
+			: console.log("Missed");
+	};
+
 	const registerAssociate = async () => {
 		const response = await fetch(`${accessHost}/register`, {
 			...defaultRequest,
@@ -18,17 +29,9 @@ const AssociateAuth = () => {
 		});
 
 		const queryResponse = await response.json();
-		queryResponse.status === 200
-			? authorize(queryResponse.body)
+		response.status === 200
+			? checkRoleStatus(queryResponse.role, queryResponse.body)
 			: console.log("Missed");
-
-		if (queryResponse.role == 1) {
-			navigate("/", { replace: true });
-		} else if (queryResponse.role == 2) {
-			navigate("/Associate", { replace: true });
-		} else {
-			console.log("Admin");
-		}
 	};
 
 	const loginAssociate = async () => {
@@ -39,17 +42,9 @@ const AssociateAuth = () => {
 		});
 
 		const queryResponse = await response.json();
-		queryResponse.status === 200
-			? authorize(queryResponse.body)
+		response.status === 200
+			? checkRoleStatus(queryResponse.role, queryResponse.body)
 			: console.log("Missed");
-
-		if (queryResponse.role == 1) {
-			navigate("/", { replace: true });
-		} else if (queryResponse.role == 2) {
-			navigate("/Associate", { replace: true });
-		} else {
-			navigate("/Admin", { replace: true });
-		}
 	};
 
 	const logout = async () => {
@@ -62,9 +57,7 @@ const AssociateAuth = () => {
 			},
 		});
 
-		const queryResponse = await response.json();
-
-		queryResponse.status === 200 ? unAuthorize() : console.log("logout failed");
+		response.status === 200 ? unAuthorize() : console.log("logout failed");
 
 		navigate("/", { replace: true });
 

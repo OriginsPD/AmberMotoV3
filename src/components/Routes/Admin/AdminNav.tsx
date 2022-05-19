@@ -1,31 +1,27 @@
 import AdminDrop from "../dropdown/AdminDrop";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import {
+	BellIcon,
+	MenuIcon,
+	ShieldCheckIcon,
+	XIcon,
+} from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
+import { NavLink } from "react-router-dom";
 
-const user = {
-	name: "Tom Cook",
-	email: "tom@example.com",
-	imageUrl:
-		"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
-	{ name: "Home", href: "#", current: true },
-	{ name: "Profile", href: "#", current: false },
-	{ name: "Resources", href: "#", current: false },
-	{ name: "Company Directory", href: "#", current: false },
-	{ name: "Openings", href: "#", current: false },
+	{ name: "Home", href: "/Admin" },
+	{ name: "Rental", href: "/Admin/rentals" },
+	{ name: "Sales Log", href: "/Admin/salesLog" },
+	{ name: "Accumulated Income", href: "income" },
+	{ name: "Pending Applications", href: "#" },
 ];
 const userNavigation = [
 	{ name: "Your Profile", href: "#" },
 	{ name: "Settings", href: "#" },
 	{ name: "Sign out", href: "#" },
 ];
-
-function classNames(...classes: string[]) {
-	return classes.filter(Boolean).join(" ");
-}
 
 const AdminNav = () => {
 	return (
@@ -36,14 +32,26 @@ const AdminNav = () => {
 						<div className="relative flex items-center justify-center py-5 lg:justify-between">
 							{/* Logo */}
 							<div className="absolute left-0 flex-shrink-0 lg:static">
-								<a href="#">
-									<span className="sr-only">Workflow</span>
-									<img
-										className="h-8 w-auto"
-										src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
-										alt="Workflow"
-									/>
-								</a>
+								<NavLink
+									to={"/Admin"}
+									className="hidden flex-col items-center justify-center space-x-2 text-2xl font-bold text-white drop-shadow-xl lg:block"
+								>
+									<div className="flex">
+										<ShieldCheckIcon className="h-8 w-auto text-white" />
+										AmberMotors
+									</div>
+									<div className="text-right text-xs italic">
+										Administrator Mode
+									</div>
+								</NavLink>
+
+								<NavLink
+									to={"/Admin"}
+									className="flex items-center justify-center space-x-2 text-2xl font-bold text-white drop-shadow-xl lg:hidden"
+								>
+									<ShieldCheckIcon className="h-8 w-auto text-white" />
+									AM
+								</NavLink>
 							</div>
 
 							{/* Right section on desktop */}
@@ -98,17 +106,16 @@ const AdminNav = () => {
 								<div className="col-span-2">
 									<nav className="flex space-x-4">
 										{navigation.map((item) => (
-											<a
+											<NavLink
 												key={item.name}
-												href={item.href}
-												className={classNames(
-													item.current ? "text-white" : "text-indigo-100",
-													"rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10"
-												)}
-												aria-current={item.current ? "page" : undefined}
+												to={item.href}
+												className={({ isActive }) =>
+													"rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10 " +
+													(!isActive ? "text-white" : "text-indigo-100")
+												}
 											>
 												{item.name}
-											</a>
+											</NavLink>
 										))}
 									</nav>
 								</div>
@@ -165,13 +172,13 @@ const AdminNav = () => {
 									<div className="divide-y divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
 										<div className="pt-3 pb-2">
 											<div className="flex items-center justify-between px-4">
-												<div>
-													<img
-														className="h-8 w-auto"
-														src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-														alt="Workflow"
-													/>
-												</div>
+												<NavLink
+													to={"/Admin"}
+													className="flex items-center justify-center space-x-2 text-2xl font-bold text-indigo-600 drop-shadow-xl "
+												>
+													<ShieldCheckIcon className="h-8 w-auto text-indigo-700" />
+													AM
+												</NavLink>
 												<div className="-mr-2">
 													<Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
 														<span className="sr-only">Close menu</span>
@@ -213,30 +220,6 @@ const AdminNav = () => {
 											</div>
 										</div>
 										<div className="pt-4 pb-2">
-											<div className="flex items-center px-5">
-												<div className="flex-shrink-0">
-													<img
-														className="h-10 w-10 rounded-full"
-														src={user.imageUrl}
-														alt=""
-													/>
-												</div>
-												<div className="ml-3 min-w-0 flex-1">
-													<div className="truncate text-base font-medium text-gray-800">
-														{user.name}
-													</div>
-													<div className="truncate text-sm font-medium text-gray-500">
-														{user.email}
-													</div>
-												</div>
-												<button
-													type="button"
-													className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-												>
-													<span className="sr-only">View notifications</span>
-													<BellIcon className="h-6 w-6" aria-hidden="true" />
-												</button>
-											</div>
 											<div className="mt-3 space-y-1 px-2">
 												{userNavigation.map((item) => (
 													<a

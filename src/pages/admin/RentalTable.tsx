@@ -1,90 +1,92 @@
-import { EmployeeList } from "../../api/employee/EmployeeApi";
-
-import { EmployeeProps } from "../../constants/ApiConfig";
-
-import { documentTitle } from "../../gen/documentConfig";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { useEffect, useState } from "react";
+import { RentalState } from "../../constants/ApiConfig";
 
 import ReactPaginate from "react-paginate";
-import { ChevronRightIcon } from "@heroicons/react/outline";
-import { ChevronLeftIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+
+// Api
+import RentalApi from "../../api/rental/RentalApi";
 import RaceLoader from "../../components/loader/RaceLoader";
 
-const EmployeeTable = () => {
-	const [pageCount, setPageCount] = useState(0);
-	const [currentEmployee, setCurrentEmployee] = useState<EmployeeProps[]>(
-		{} as EmployeeProps[]
-	);
+var formatter = new Intl.NumberFormat("en-US", {
+	style: "currency",
+	currency: "USD",
+	maximumFractionDigits: 0,
 
-	const { employee } = EmployeeList();
+	// These options are needed to round to whole numbers if that's what you want.
+	//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+	//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+const RentalTable = () => {
+	const { rentalIndex, rentalList, isLoaded } = RentalApi();
+
+	const [pageCount, setPageCount] = useState(0);
+	const [currentRental, setCurrentRental] = useState<RentalState[]>([]);
 
 	useEffect(() => {
-		documentTitle("Admin");
-		setPageCount(Math.ceil(Object.keys(employee).length / 5 - 1));
-		setCurrentEmployee(Object.values(employee).slice(5, 10));
-	}, [employee]);
+		rentalIndex();
+	}, []);
 
-	const handleClick = async (data: { selected: any }) => {
+	useEffect(() => {
+		setPageCount(Math.ceil(rentalList.length / 5 - 1));
+		setCurrentRental(rentalList.slice(5, 10));
+	}, [rentalList]);
+
+	const handleClick = async (data: { selected: number }) => {
 		let currentPage = data.selected + 1;
 
-		// console.log(currentPage);
 		let firstPageIndex = currentPage * 5;
 		let lastPageIndex = firstPageIndex + 5;
 
-		setCurrentEmployee(
-			Object.values(employee).slice(firstPageIndex, lastPageIndex)
-		);
-
-		// console.log(currentEmployee);
+		setCurrentRental(rentalList.slice(firstPageIndex, lastPageIndex));
 	};
 
-	// console.log(typeof pageCount);
-
+	// console.log(rentalList);
 	return (
 		<>
-			<div className="px-4 py-4 sm:px-6 lg:px-8">
+			<div className="px-4 sm:px-6 lg:px-8">
 				<div className="sm:flex sm:items-center">
 					<div className="sm:flex-auto">
 						<h1 className="text-xl font-semibold text-gray-900">
-							All Employee's Information
+							Active Rentals
 						</h1>
-						<p className="mt-2 text-sm text-gray-700">
-							A list of all the employees including their name, address, email
-							and status.
+						<p className="mt-2 text-sm capitalize text-gray-700">
+							A list of all the current rental
 						</p>
 					</div>
 				</div>
 				<div className="mt-8 flex flex-col">
 					<div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-							<table className="min-w-full divide-y divide-gray-300">
+							<table className="min-w-full table-fixed divide-y divide-gray-300">
 								<thead>
 									<tr>
 										<th
 											scope="col"
 											className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
 										>
-											Employee Name
+											Client
 										</th>
 										<th
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Email
+											Employee
 										</th>
 										<th
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Address
+											Bike Model
 										</th>
 										<th
 											scope="col"
-											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
+											className=" py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Status
+											Rental Fee
 										</th>
+
 										<th
 											scope="col"
 											className="relative py-3.5 pl-3 pr-4 sm:pr-6 md:pr-0"
@@ -94,7 +96,7 @@ const EmployeeTable = () => {
 									</tr>
 								</thead>
 								<tbody className="divide-y divide-gray-200">
-									{Object.keys(employee).length == 0 ? (
+									{!isLoaded ? (
 										<tr>
 											<td
 												colSpan={5}
@@ -105,35 +107,40 @@ const EmployeeTable = () => {
 												</div>
 											</td>
 										</tr>
+									) : rentalList.length == 0 ? (
+										<tr>
+											<td
+												colSpan={5}
+												className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-400 sm:pl-6 md:pl-0"
+											>
+												<div className="flex w-full items-center justify-center pt-4">
+													No Rental Found
+												</div>
+											</td>
+										</tr>
 									) : (
-										Object.values(currentEmployee).map((person) => (
-											<tr key={person.id}>
+										currentRental.map((rental) => (
+											<tr key={rental.id}>
 												<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
-													{person.user.username}
+													{rental.user.username}
 												</td>
 												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-													{person.user.email}
+													{rental.employee.user.username}
 												</td>
-												<td className="w-10/12 whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
-													{person.user.personal_detail?.address ??
-														"No Address Added"}
+												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+													{rental.bike.bike_model}
 												</td>
-												<td
-													className={`${
-														person.active_flg
-															? "text-green-500"
-															: "text-red-500"
-													} whitespace-nowrap py-2 px-3 text-center text-sm font-medium`}
-												>
-													{person.active_flg ? "Active" : "InActive"}
+												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+													{formatter.format(rental.bike.rental_fee)}
 												</td>
+
 												<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
-													<NavLink
-														to="#"
+													<a
+														href="#"
 														className="text-indigo-600 hover:text-indigo-900"
 													>
-														View<span className="sr-only">, {person.id}</span>
-													</NavLink>
+														View<span className="sr-only">, {rental.id}</span>
+													</a>
 												</td>
 											</tr>
 										))
@@ -164,7 +171,6 @@ const EmployeeTable = () => {
 								</div>
 							</div>
 						</div>
-                        
 					</div>
 				</div>
 			</div>
@@ -172,4 +178,4 @@ const EmployeeTable = () => {
 	);
 };
 
-export default EmployeeTable;
+export default RentalTable;
