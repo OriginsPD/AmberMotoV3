@@ -15,6 +15,7 @@ const Homepage = () => {
 	useEffect(() => {
 		documentTitle("Home");
 	}, []);
+
 	return (
 		<>
 			<section
