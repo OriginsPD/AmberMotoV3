@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import useToken from "../../components/hooks/useToken";
 import {
 	accessHost,
@@ -6,10 +6,34 @@ import {
 	EmployeeProps,
 } from "../../constants/ApiConfig";
 
+type UnActiveUserProp = {
+	id: number;
+	username: number;
+	email: number;
+	status: number;
+	employee: [
+		{
+			id: number;
+			user_id: number;
+			active_flg: boolean;
+		}
+	];
+};
+
 const EmployeeApi = () => {
 	const { token } = useToken();
+
+	const [isLoaded, setIsLoad] = useState(false);
+
 	const [employee, setEmployee] = useState<EmployeeProps[]>(
 		{} as EmployeeProps[]
+	);
+	const [employeePending, setEmployeePending] = useState<EmployeeProps[]>(
+		{} as EmployeeProps[]
+	);
+
+	const [unActiveEmployee, setUnActiveEmployee] = useState<UnActiveUserProp[]>(
+		{} as UnActiveUserProp[]
 	);
 
 	useEffect(() => {
@@ -26,7 +50,7 @@ const EmployeeApi = () => {
 			const queryResponse = await response.json();
 
 			response.status == 200
-				? setEmployee(queryResponse.query)
+				? setEmployeeDetails(queryResponse)
 				: console.log(response.status);
 
 			return queryResponse;
@@ -34,12 +58,23 @@ const EmployeeApi = () => {
 		fetchEmployee();
 	}, [token]);
 
-	return { employee };
+	const setEmployeeDetails = (data: {
+		query: SetStateAction<EmployeeProps[]>;
+		pending: SetStateAction<EmployeeProps[]>;
+		unActive: SetStateAction<UnActiveUserProp[]>;
+	}) => {
+		setEmployee(data.query);
+		setEmployeePending(data.pending);
+		setUnActiveEmployee(data.unActive);
+		setIsLoad(true);
+	};
+
+	return { employee, isLoaded, employeePending };
 };
 
 export default EmployeeApi;
 
 export const EmployeeList = () => {
-	const { employee } = EmployeeApi();
-	return { employee };
+	const { employee, isLoaded, employeePending } = EmployeeApi();
+	return { employee, isLoaded, employeePending };
 };

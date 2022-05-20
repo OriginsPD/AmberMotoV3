@@ -1,10 +1,18 @@
 import { StarIcon } from "@heroicons/react/solid";
-import React, { CSSProperties, useEffect, useState } from "react";
-import { getAmberPayList } from "../../api/payment/AmberPayLogApi";
-import RentalApi from "../../api/rental/RentalApi";
+import React, { CSSProperties, Fragment, useEffect, useState } from "react";
+
+import CountUp from "react-countup";
+
+// Chart
 import AdminChart from "../../components/charts/AdminChart";
+
+// Loader
 import RaceLoader from "../../components/loader/RaceLoader";
 import Spinner from "../../components/loader/Spinner";
+
+// Api
+import { getAmberPayList } from "../../api/payment/AmberPayLogApi";
+import RentalApi from "../../api/rental/RentalApi";
 
 const IncomeStats = () => {
 	const { isLoaded, logSum, highAssociate, logList, logStats } =
@@ -31,7 +39,7 @@ const IncomeStats = () => {
 
 	return (
 		<div className="space-y-8 divide-y">
-			<div className="flex  justify-between">
+			<div className="flex-auto justify-between lg:flex">
 				<div className="m-5">
 					<div className="my-2 bg-gray-50 ">
 						<span className="w-full py-3 px-5 text-center text-xl font-extrabold">
@@ -40,7 +48,7 @@ const IncomeStats = () => {
 					</div>
 					<div className="rounded-lg bg-white p-10 ">
 						<div className="flex flex-col items-center gap-1 text-center">
-							<h1 className="mx-auto mb-8 w-full text-2xl font-bold leading-none tracking-tighter text-black lg:text-2xl lg:uppercase">
+							<h1 className="mx-auto mb-8 w-full text-lg font-bold leading-none tracking-tighter text-black lg:text-2xl lg:uppercase">
 								Accumulated Income
 							</h1>
 							<strong className="mx-auto mb-8 flex items-end justify-center text-center text-3xl font-black leading-none lg:text-4xl ">
@@ -55,7 +63,18 @@ const IncomeStats = () => {
 										logList.length == 0 ? (
 											0
 										) : (
-											formatter.format(highAssociate.incomeTotal)
+											//formatter.format(highAssociate.incomeTotal)
+											<Fragment>
+												${" "}
+												<CountUp
+													start={0}
+													end={highAssociate.incomeTotal}
+													duration={2}
+													separator={","}
+													decimal={"."}
+													decimals={2}
+												/>
+											</Fragment>
 										)
 									) : (
 										<div className="flex h-[7rem] items-center justify-center">

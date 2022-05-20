@@ -29,6 +29,8 @@ import AdminLayout from "./components/Layouts/AdminLayout";
 import RentalTable from "./pages/admin/RentalTable";
 import SalesLogTable from "./pages/admin/SalesLogTable";
 import IncomeStats from "./pages/admin/IncomeStats";
+import AccessPermission from "./auth/AccessPermission";
+import Pending from "./pages/admin/Pending";
 
 documentBody();
 
@@ -46,19 +48,26 @@ const App = () => {
 							<Route path="/catalogues" element={<CataloguePage />} />
 							<Route path="/members" element={<Memberpage />} />
 						</Route>
-						<Route path="/Associate" element={<AssociateLayout />}>
-							<Route path="" element={<Index />} />
-							<Route path="wallet" element={<Wallet />} />
-							<Route path="client" element={<ClientAssociate />} />
-							<Route path="vehicleList" element={<VehicleListTable />} />
-							<Route path="vehicleStatus" element={<VehicleStatusTable />} />
-							<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
+
+						<Route element={<AccessPermission role={2} />}>
+							<Route path="/Associate" element={<AssociateLayout />}>
+								<Route path="" element={<Index />} />
+								<Route path="wallet" element={<Wallet />} />
+								<Route path="client" element={<ClientAssociate />} />
+								<Route path="vehicleList" element={<VehicleListTable />} />
+								<Route path="vehicleStatus" element={<VehicleStatusTable />} />
+								<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
+							</Route>
 						</Route>
-						<Route path="/Admin" element={<AdminLayout />}>
-							<Route path="" element={<Dashboard />} />
-							<Route path="rentals" element={<RentalTable />} />
-							<Route path="salesLog" element={<SalesLogTable />} />
-							<Route path="income" element={<IncomeStats />} />
+
+						<Route element={<AccessPermission role={3} />}>
+							<Route path="/Admin" element={<AdminLayout />}>
+								<Route path="" element={<Dashboard />} />
+								<Route path="rentals" element={<RentalTable />} />
+								<Route path="salesLog" element={<SalesLogTable />} />
+								<Route path="income" element={<IncomeStats />} />
+								<Route path="pending" element={<Pending />} />
+							</Route>
 						</Route>
 					</Routes>
 				</FormContextProvider>

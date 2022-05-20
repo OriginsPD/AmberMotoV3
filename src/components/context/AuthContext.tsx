@@ -120,7 +120,7 @@ const AuthContextProvider = ({ children }: ContextProp) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	// Authorize User
-	const authorize = ({ token, authInfo }: initialStateProps) => {
+	const authorize = async ({ token, authInfo }: initialStateProps) => {
 		dispatch({
 			type: ACTION.AUTHORIZE,
 			payload: { token: token, authInfo: authInfo },
@@ -128,14 +128,14 @@ const AuthContextProvider = ({ children }: ContextProp) => {
 	};
 
 	// Reauthorize When Page Reloads
-	const reAuthorize = () => {
-		const tokenString = localStorage.getItem("token");
+	const reAuthorize = async () => {
+		const tokenString = await localStorage.getItem("token");
 		const token = tokenString ? JSON.parse(tokenString) : null;
 
-		const authString = localStorage.getItem("authInfo");
+		const authString = await localStorage.getItem("authInfo");
 		const authInfo = authString ? JSON.parse(authString) : {};
 
-		const authStateString = localStorage.getItem("isAuth");
+		const authStateString = await localStorage.getItem("isAuth");
 		const isAuth = authStateString ? JSON.parse(authStateString) : false;
 
 		const authorizeInfo = {

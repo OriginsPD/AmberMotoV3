@@ -37,12 +37,20 @@ const AdminChart = ({ label, chartData }: BarChartProp) => {
 
 	return (
 		<>
-			<div className="my-2 flex bg-gray-50 ">
+			<div className="my-2 flex-col bg-gray-50 ">
 				<span className="w-full py-3 px-5 text-center text-xl font-extrabold">
 					Associate With Most Sales
 				</span>
+				<Doughnut
+					data={data}
+					options={{
+						responsive: true,
+						maintainAspectRatio: true,
+					}}
+					height={2}
+					width={2}
+				/>
 			</div>
-			<Doughnut data={data} height={10} width={10} />
 		</>
 	);
 };

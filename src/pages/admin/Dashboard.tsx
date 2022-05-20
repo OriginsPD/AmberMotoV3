@@ -1,8 +1,8 @@
 import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/solid";
 import {
-	CursorClickIcon,
-	MailOpenIcon,
+	OfficeBuildingIcon,
 	UsersIcon,
+	CashIcon,
 } from "@heroicons/react/outline";
 
 import EmployeeTable from "./EmployeeTable";
@@ -10,7 +10,7 @@ import EmployeeTable from "./EmployeeTable";
 const stats = [
 	{
 		id: 1,
-		name: "Total Subscribers",
+		name: "Avg. Clients",
 		stat: "71,897",
 		icon: UsersIcon,
 		change: "122",
@@ -18,17 +18,17 @@ const stats = [
 	},
 	{
 		id: 2,
-		name: "Avg. Open Rate",
+		name: "Avg. Associate",
 		stat: "58.16%",
-		icon: MailOpenIcon,
+		icon: OfficeBuildingIcon,
 		change: "5.4%",
 		changeType: "increase",
 	},
 	{
 		id: 3,
-		name: "Avg. Click Rate",
+		name: "Avg. Rentals",
 		stat: "24.57%",
-		icon: CursorClickIcon,
+		icon: CashIcon,
 		change: "3.2%",
 		changeType: "decrease",
 	},
@@ -66,31 +66,7 @@ const Dashboard = () => {
 								<p className="text-2xl font-semibold text-gray-900">
 									{item.stat}
 								</p>
-								<p
-									className={classNames(
-										item.changeType === "increase"
-											? "text-green-600"
-											: "text-red-600",
-										"ml-2 flex items-baseline text-sm font-semibold"
-									)}
-								>
-									{item.changeType === "increase" ? (
-										<ArrowSmUpIcon
-											className="h-5 w-5 flex-shrink-0 self-center text-green-500"
-											aria-hidden="true"
-										/>
-									) : (
-										<ArrowSmDownIcon
-											className="h-5 w-5 flex-shrink-0 self-center text-red-500"
-											aria-hidden="true"
-										/>
-									)}
-									<span className="sr-only">
-										{item.changeType === "increase" ? "Increased" : "Decreased"}{" "}
-										by
-									</span>
-									{item.change}
-								</p>
+
 								<div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
 									<div className="text-sm">
 										<a
