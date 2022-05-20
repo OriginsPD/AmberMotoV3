@@ -49,26 +49,26 @@ const App = () => {
 							<Route path="/members" element={<Memberpage />} />
 						</Route>
 
-						<Route element={<AccessPermission role={2} />}>
-							<Route path="/Associate" element={<AssociateLayout />}>
-								<Route path="" element={<Index />} />
-								<Route path="wallet" element={<Wallet />} />
-								<Route path="client" element={<ClientAssociate />} />
-								<Route path="vehicleList" element={<VehicleListTable />} />
-								<Route path="vehicleStatus" element={<VehicleStatusTable />} />
-								<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
-							</Route>
+						{/* <Route element={<AccessPermission role={2} />}> */}
+						<Route path="/Associate" element={<AssociateLayout />}>
+							<Route path="" element={<Index />} />
+							<Route path="wallet" element={<Wallet />} />
+							<Route path="client" element={<ClientAssociate />} />
+							<Route path="vehicleList" element={<VehicleListTable />} />
+							<Route path="vehicleStatus" element={<VehicleStatusTable />} />
+							<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
 						</Route>
+						{/* </Route> */}
 
-						<Route element={<AccessPermission role={3} />}>
-							<Route path="/Admin" element={<AdminLayout />}>
-								<Route path="" element={<Dashboard />} />
-								<Route path="rentals" element={<RentalTable />} />
-								<Route path="salesLog" element={<SalesLogTable />} />
-								<Route path="income" element={<IncomeStats />} />
-								<Route path="pending" element={<Pending />} />
-							</Route>
+						{/* <Route element={<AccessPermission role={3} />}> */}
+						<Route path="/Admin" element={<AdminLayout />}>
+							<Route path="" element={<Dashboard />} />
+							<Route path="rentals" element={<RentalTable />} />
+							<Route path="salesLog" element={<SalesLogTable />} />
+							<Route path="income" element={<IncomeStats />} />
+							<Route path="pending" element={<Pending />} />
 						</Route>
+						{/* </Route> */}
 					</Routes>
 				</FormContextProvider>
 			</AuthContextProvider>
