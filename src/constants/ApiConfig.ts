@@ -1,5 +1,5 @@
-// export const accessHost = "https://api.bikerental.fimijm.com/api";
-export const accessHost = "http://127.0.0.1:8000/api";
+export const accessHost = "https://api.bikerental.fimijm.com/api";
+// export const accessHost = "http://127.0.0.1:8000/api";
 
 type ApiRequestProps = {
 	method: string;

@@ -43,7 +43,7 @@ const Homepage = () => {
 							</h1>
 						</div>
 
-						<p className=" max-w-lg py-4 font-medium italic drop-shadow sm:text-lg sm:leading-relaxed">
+						<p className=" max-w-lg py-4 font-medium  italic drop-shadow sm:text-lg sm:leading-relaxed">
 							We simplified bike rentals, so you can focus on what's important
 							to you.
 						</p>
@@ -91,7 +91,7 @@ const Homepage = () => {
 						/>
 					</div>
 				</div>
-				<div className="hidden sm:absolute sm:inset-0 sm:bg-gradient-to-t sm:from-white sm:to-transparent lg:block"></div>
+				<div className="hidden sm:absolute sm:inset-0 sm:bg-gradient-to-t sm:from-white sm:via-orange-700/50 sm:to-transparent lg:block"></div>
 			</section>
 			<Advertisement />
 		</>

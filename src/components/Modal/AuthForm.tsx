@@ -5,6 +5,7 @@ import FormConfig from "../config/FormConfig";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AssociateAuth from "../../api/auth/AssociateAuth";
+import { ShieldCheckIcon } from "@heroicons/react/solid";
 
 type AuthFormProps = {
 	isOpen: boolean;
@@ -72,15 +73,16 @@ const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 										<div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
 											<div className="mx-auto w-full max-w-sm lg:w-96">
 												<div>
-													<div className="flex items-center space-x-4">
-														<img
-															className="h-12 w-auto"
-															src="https://tailwindui.com/img/logos/workflow-mark-blue-600.svg"
-															alt="Workflow"
-														/>
-														<h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+													<div className="flex-col items-center space-x-4">
+														<div className="flex items-center text-center">
+															<ShieldCheckIcon className="h-12 w-auto rounded-l-full  text-orange-600" />
+															<div className="-pl-0.5 rounded-r-full text-4xl font-bold text-orange-600">
+																AmberMotor
+															</div>
+														</div>
+														{/* <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
 															Welcome Back
-														</h2>
+														</h2> */}
 													</div>
 													<p className="mt-2 text-sm text-gray-600">
 														We look forward to travel with you again
@@ -198,7 +200,7 @@ const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 																			autoComplete={form.name}
 																			onChange={storeInfo}
 																			value={form.value}
-																			className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm"
+																			className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm"
 																		/>
 																	</div>
 																</div>
@@ -210,7 +212,7 @@ const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 																		id="remember-me"
 																		name="remember-me"
 																		type="checkbox"
-																		className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+																		className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
 																	/>
 																	<label
 																		htmlFor="remember-me"
@@ -223,7 +225,7 @@ const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 																<div className="text-sm">
 																	<a
 																		href="#"
-																		className="font-medium text-green-600 hover:text-green-500"
+																		className="font-medium text-orange-600 hover:text-orange-500"
 																	>
 																		Forgot your password?
 																	</a>
@@ -233,14 +235,14 @@ const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 															<div>
 																<button
 																	type="submit"
-																	className="flex w-full justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+																	className="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
 																>
 																	Login
 																</button>
 															</div>
 														</form>
 														{Object.keys(errors).length === 0 ? null : (
-															<div className="mt-4 rounded-md bg-green-50 p-5 ">
+															<div className="mt-4 rounded-md bg-orange-50 p-5 ">
 																<div className="flex">
 																	<div className="flex-shrink-0">
 																		<svg
