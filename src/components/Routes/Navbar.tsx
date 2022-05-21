@@ -44,7 +44,7 @@ const Navbar = () => {
 								<div className="flex items-center text-center">
 									<ShieldCheckIcon className="h-10 w-auto rounded-l-full  text-blue-600" />
 									<div className="rounded-r-full px-0.5 text-2xl font-bold italic text-blue-600">
-										AmberMotor
+										AmberMotor2
 									</div>
 								</div>
 							</NavLink>
