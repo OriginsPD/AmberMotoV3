@@ -4,6 +4,7 @@ import {
 	accessHost,
 	defaultRequest,
 	EmployeeProps,
+	XSRFTOKEN,
 } from "../../constants/ApiConfig";
 
 type UnActiveUserProp = {
@@ -43,6 +44,7 @@ const EmployeeApi = () => {
 				method: "GET",
 				headers: {
 					Authorization: `Bearer ${token}`,
+					"X-XSRF-TOKEN": XSRFTOKEN,
 				},
 			});
 
@@ -77,6 +79,7 @@ const EmployeeApi = () => {
 			headers: {
 				"Content-type": "application/x-www-form-urlencoded",
 				Accept: "application/json",
+				"X-XSRF-TOKEN": XSRFTOKEN,
 				Authorization: `Bearer ${token}`,
 			},
 			body: urlencoded,

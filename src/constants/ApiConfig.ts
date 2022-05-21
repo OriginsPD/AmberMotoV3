@@ -1,5 +1,8 @@
-export const accessHost = "https://api.bikerental.fimijm.com/api";
-// export const accessHost = "http://127.0.0.1:8000/api";
+// export const accessHost = "https://api.bikerental.fimijm.com/api";
+export const accessHost = "http://127.0.0.1:8000/api";
+
+export const XSRFTOKEN =
+	"XSRF-TOKEN=eyJpdiI6IjgyMXRsb1ZkcWJYT1k2aG1wQkZ6Wmc9PSIsInZhbHVlIjoiS3R1eGQ1VVh0UHJBWmRqZjFEQTBNOFloK1BRaWYyY09STGxzd0RtbUZkTUR6R0h4dVBBcHZwcTJjbm9kRHJIYzZZNjJSWmtjbmhWeisyUUlVWk5CV2RWZGRvdkhBQkt0ZE16MlNTQnplaWV3c21Qa3RGUEo3M2toTGd4YTFyTEkiLCJtYWMiOiI5NzNhMjI4M2JhZjYxNmE5NmIxMzI5ZmJmYWFiYTZjODU1ODQ2NzMyZDM1ODNjOTFmNDQ1YWRmMTM4MTIyMmYzIiwidGFnIjoiIn0%3D";
 
 type ApiRequestProps = {
 	method: string;
