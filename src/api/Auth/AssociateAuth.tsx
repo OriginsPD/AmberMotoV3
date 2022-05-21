@@ -57,15 +57,12 @@ const AssociateAuth = () => {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,
-				Accept: "application/json",
 			},
 		});
 
 		response.status === 200 ? unAuthorize() : console.log("logout failed");
 
 		navigate("/", { replace: true });
-
-		// console.log(queryResponse);
 	};
 	return { registerAssociate, loginAssociate, logout };
 };
