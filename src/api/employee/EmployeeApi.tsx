@@ -69,7 +69,22 @@ const EmployeeApi = () => {
 		setIsLoad(true);
 	};
 
-	return { employee, isLoaded, employeePending };
+	const EmployeeUpdate = async (ids: any) => {
+		var urlencoded = new URLSearchParams();
+		urlencoded.append("Array", ids);
+		const response = await fetch(`${accessHost}/employeeStatus`, {
+			...defaultRequest,
+			method: "POST",
+			headers: {
+				"Content-type": "application/x-www-form-urlencoded",
+				Accept: "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+			body: urlencoded,
+		});
+	};
+
+	return { employee, isLoaded, employeePending, EmployeeUpdate };
 };
 
 export default EmployeeApi;

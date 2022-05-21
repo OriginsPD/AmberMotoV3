@@ -27,7 +27,7 @@ const Brandpage = () => {
 					<div className="mt-4 flow-root">
 						<div className="-my-2">
 							<div className="relative box-content h-[44rem] max-h-screen overflow-x-auto py-2 xl:overflow-visible">
-								<div className="min-w-screen-xl grid h-full grid-cols-2 gap-2 overflow-y-auto py-2 px-4 scrollbar-hide sm:px-6 lg:px-8 xl:relative xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0">
+								<div className="min-w-screen-xl grid h-full grid-cols-2 gap-2 overflow-y-auto py-2 px-4 scrollbar-hide sm:px-6 md:grid-cols-3 lg:px-8 xl:relative xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0">
 									{brands.map((brand) => (
 										<div
 											key={brand.id}

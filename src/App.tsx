@@ -31,44 +31,54 @@ import SalesLogTable from "./pages/admin/SalesLogTable";
 import IncomeStats from "./pages/admin/IncomeStats";
 import AccessPermission from "./auth/AccessPermission";
 import Pending from "./pages/admin/Pending";
+import CheckPermission from "./auth/CheckPermission";
+
+import aos from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 documentBody();
 
 const App = () => {
+	useEffect(() => {
+		aos.init();
+	}, []);
 	return (
 		<Router>
 			<AuthContextProvider>
 				<FormContextProvider>
 					<Routes>
-						<Route element={<HomeLayout />}>
-							<Route path="/" element={<Homepage />} />
-							<Route path="/join" element={<AuthIndex />} />
-							<Route path="/Auth/:user" element={<AuthRegister />} />
-							<Route path="/brands" element={<Brandpage />} />
-							<Route path="/catalogues" element={<CataloguePage />} />
-							<Route path="/members" element={<Memberpage />} />
+						<Route element={<CheckPermission />}>
+							<Route element={<HomeLayout />}>
+								<Route path="/" element={<Homepage />} />
+								<Route path="/join" element={<AuthIndex />} />
+								<Route path="/Auth/:user" element={<AuthRegister />} />
+								<Route path="/brands" element={<Brandpage />} />
+								<Route path="/catalogues" element={<CataloguePage />} />
+								<Route path="/members" element={<Memberpage />} />
+							</Route>
 						</Route>
 
-						{/* <Route element={<AccessPermission role={2} />}> */}
-						<Route path="/Associate" element={<AssociateLayout />}>
-							<Route path="" element={<Index />} />
-							<Route path="wallet" element={<Wallet />} />
-							<Route path="client" element={<ClientAssociate />} />
-							<Route path="vehicleList" element={<VehicleListTable />} />
-							<Route path="vehicleStatus" element={<VehicleStatusTable />} />
-							<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
+						<Route element={<AccessPermission role={2} />}>
+							<Route path="/Associate" element={<AssociateLayout />}>
+								<Route path="" element={<Index />} />
+								<Route path="wallet" element={<Wallet />} />
+								<Route path="client" element={<ClientAssociate />} />
+								<Route path="vehicleList" element={<VehicleListTable />} />
+								<Route path="vehicleStatus" element={<VehicleStatusTable />} />
+								<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
+							</Route>
 						</Route>
-						{/* </Route> */}
 
-						{/* <Route element={<AccessPermission role={3} />}> */}
-						<Route path="/Admin" element={<AdminLayout />}>
-							<Route path="" element={<Dashboard />} />
-							<Route path="rentals" element={<RentalTable />} />
-							<Route path="salesLog" element={<SalesLogTable />} />
-							<Route path="income" element={<IncomeStats />} />
-							<Route path="pending" element={<Pending />} />
+						<Route element={<AccessPermission role={3} />}>
+							<Route path="/Admin" element={<AdminLayout />}>
+								<Route path="" element={<Dashboard />} />
+								<Route path="rentals" element={<RentalTable />} />
+								<Route path="salesLog" element={<SalesLogTable />} />
+								<Route path="income" element={<IncomeStats />} />
+								<Route path="pending" element={<Pending />} />
+							</Route>
 						</Route>
-						{/* </Route> */}
 					</Routes>
 				</FormContextProvider>
 			</AuthContextProvider>

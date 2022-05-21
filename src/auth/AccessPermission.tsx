@@ -8,7 +8,7 @@ enum ROLES {
 }
 
 type AllowedRoleProps = {
-	role: number;
+	role: ROLES;
 };
 
 const AccessPermission = ({ role }: AllowedRoleProps) => {

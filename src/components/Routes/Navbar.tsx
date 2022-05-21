@@ -21,7 +21,7 @@ import useAuth from "../hooks/useAuth";
 const Navbar = () => {
 	const { isAuth } = CheckAuth();
 	const { state } = useAuth();
-	const { isOpen, toggleModal } = useToggle();
+	const { isOpen, toggleModal, closeModal } = useToggle();
 
 	const navigation = [
 		{ name: "Brand", href: "/brands" },
@@ -34,9 +34,17 @@ const Navbar = () => {
 	}
 	return (
 		<>
-			<AuthForm isOpen={isOpen} toggleModal={toggleModal} />
+			<AuthForm
+				isOpen={isOpen}
+				toggleModal={toggleModal}
+				closeModal={closeModal}
+			/>
 
-			<header className=" border-b bg-transparent shadow-lg ">
+			<header
+				data-aos="fade-up"
+				data-aos-anchor-placement="top-bottom"
+				className="  bg-transparent  "
+			>
 				<div className="mx-auto max-w-screen-xl p-4">
 					<div className="flex items-center justify-between space-x-4 lg:space-x-10">
 						<div className="flex lg:w-0 lg:flex-1">

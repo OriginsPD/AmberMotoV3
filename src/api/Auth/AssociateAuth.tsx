@@ -13,13 +13,16 @@ const AssociateAuth = () => {
 	const checkRoleStatus = async (role: number, data: any) => {
 		authorize(data);
 
-		role
-			? role == 1
-				? navigate("/", { replace: true })
-				: role == 2
-				? navigate("/Associate", { replace: true })
-				: navigate("/Admin", { replace: true })
-			: console.log("Missed");
+		setTimeout(() => {
+			// console.log("Missed");
+			role
+				? role == 1
+					? navigate("/", { replace: true })
+					: role == 2
+					? navigate("/Associate", { replace: true })
+					: navigate("/Admin", { replace: true })
+				: console.log("Missed");
+		}, 500);
 	};
 
 	const registerAssociate = async () => {

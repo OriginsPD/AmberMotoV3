@@ -16,7 +16,7 @@ const RegisterSchema = yup.object({
 	password: yup
 		.string()
 		.min(4, "Password should be 4 characters or more")
-		.max(6, "Password should 6 characters or less")
+		.max(8, "Password should 8 characters or less")
 		.required("Password is Required"),
 	passwordConfirm: yup.string().oneOf([yup.ref("password"), null]),
 });
@@ -25,7 +25,7 @@ const LoginSchema = yup.object({
 	password: yup
 		.string()
 		.min(4, "Password should be 4 characters or more")
-		.max(6, "Password should 6 characters or less")
+		.max(8, "Password should 8 characters or less")
 		.required("Password is Required"),
 });
 

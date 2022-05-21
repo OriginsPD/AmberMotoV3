@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { CheckIcon, MailIcon, UserAddIcon } from "@heroicons/react/outline";
 import React, { Fragment, useEffect, useState } from "react";
 
-import { EmployeeList } from "../../api/employee/EmployeeApi";
+import EmployeeApi, { EmployeeList } from "../../api/employee/EmployeeApi";
 import { EmployeeProps } from "../../constants/ApiConfig";
 
 import ReactPaginate from "react-paginate";
@@ -15,6 +15,7 @@ import useToggle from "../../components/hooks/useToggle";
 import DescriptionModal from "../../components/Modal/DescriptionModal";
 
 const PendingTable = () => {
+	const { EmployeeUpdate } = EmployeeApi();
 	const { isOpen, closeModal, toggleModal } = useToggle();
 	const [pageCount, setPageCount] = useState(0);
 	const [currentEmployee, setCurrentEmployee] = useState<EmployeeProps[]>(
@@ -22,6 +23,12 @@ const PendingTable = () => {
 	);
 
 	const [selected, setSelected] = useState<number[]>([]);
+
+	const ActiveEmployee = () => {
+		EmployeeUpdate(selected);
+	};
+
+	// Multiple Check
 
 	const checkAll = () => {
 		if (selected.length == employee.length) {
@@ -31,6 +38,8 @@ const PendingTable = () => {
 		}
 		console.log(selected);
 	};
+
+	// Single Check
 
 	const onCheck = (id: number) => {
 		selected.includes(id)
@@ -77,6 +86,7 @@ const PendingTable = () => {
 						</button> */}
 						<button
 							type="button"
+							onClick={ActiveEmployee}
 							className="ml-3 inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
 						>
 							<CheckIcon className="h-5 w-auto pr-2" />

@@ -9,9 +9,10 @@ import AssociateAuth from "../../api/auth/AssociateAuth";
 type AuthFormProps = {
 	isOpen: boolean;
 	toggleModal: () => void;
+	closeModal: () => void;
 };
 
-const AuthForm = ({ isOpen, toggleModal }: AuthFormProps) => {
+const AuthForm = ({ isOpen, toggleModal, closeModal }: AuthFormProps) => {
 	const { loginAssociate } = AssociateAuth();
 	const { LoginSchema, loginForm, storeInfo, resetInfo } = FormConfig();
 
@@ -42,11 +43,7 @@ const AuthForm = ({ isOpen, toggleModal }: AuthFormProps) => {
 	return (
 		<>
 			<Transition appear show={isOpen} afterLeave={clearForm} as={Fragment}>
-				<Dialog
-					as="div"
-					className="relative z-10 w-full "
-					onClose={toggleModal}
-				>
+				<Dialog as="div" className="relative z-10 w-full " onClose={closeModal}>
 					<Transition.Child
 						as={Fragment}
 						enter="ease-out duration-300"
@@ -70,7 +67,7 @@ const AuthForm = ({ isOpen, toggleModal }: AuthFormProps) => {
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+								<Dialog.Panel className="w-full max-w-7xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
 									<div className="flex min-h-full">
 										<div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
 											<div className="mx-auto w-full max-w-sm lg:w-96">
