@@ -7,6 +7,7 @@ const BikeCategoryApi = () => {
 		category_nm: string;
 	};
 	const [category, setCategory] = useState<CategoryProp[]>([]);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	const indexCategory = async () => {
 		const response = await fetch(`${accessHost}/category`, {
@@ -17,11 +18,13 @@ const BikeCategoryApi = () => {
 		const queryResponse = await response.json();
 
 		setCategory(queryResponse);
+
+		setIsLoaded(true);
 	};
 
 	// console.log(category);
 
-	return { indexCategory, category };
+	return { indexCategory, category, isLoaded };
 };
 
 export default BikeCategoryApi;

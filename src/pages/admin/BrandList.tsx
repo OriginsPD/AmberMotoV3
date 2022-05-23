@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import BikeBrandApi from "../../api/bike/BikeBrandApi";
 import Spinner from "../../components/loader/Spinner";
 
@@ -54,12 +54,12 @@ const BrandList = () => {
 					</ul>
 				)}
 				<div className="mt-6">
-					<a
-						href="#"
+					<Link
+						to="/Admin/brands"
 						className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
 					>
 						View all
-					</a>
+					</Link>
 				</div>
 			</div>
 		</Fragment>

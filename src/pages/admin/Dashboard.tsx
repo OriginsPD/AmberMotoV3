@@ -6,50 +6,48 @@ import {
 } from "@heroicons/react/outline";
 
 import EmployeeTable from "./EmployeeTable";
-
-const stats = [
-	{
-		id: 1,
-		name: "Avg. Clients",
-		stat: "71,897",
-		icon: UsersIcon,
-		change: "122",
-		changeType: "increase",
-	},
-	{
-		id: 2,
-		name: "Avg. Associate",
-		stat: "58.16%",
-		icon: OfficeBuildingIcon,
-		change: "5.4%",
-		changeType: "increase",
-	},
-	{
-		id: 3,
-		name: "Avg. Rentals",
-		stat: "24.57%",
-		icon: CashIcon,
-		change: "3.2%",
-		changeType: "decrease",
-	},
-];
+import { calculateAvg } from "../../api/stats/StatsApi";
+import CountUp from "react-countup";
 
 function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
 }
 
 const Dashboard = () => {
+	const { RentalCount, associateCount, clientCount, userCount } =
+		calculateAvg();
+	const stats = [
+		{
+			id: 1,
+			name: "Avg. Clients",
+			stat: ((clientCount + userCount) / 2).toFixed(2) + " %",
+			icon: UsersIcon,
+		},
+		{
+			id: 2,
+			name: "Avg. Associate",
+			stat: ((associateCount + userCount) / 2).toFixed(2) + " %",
+			icon: OfficeBuildingIcon,
+		},
+		{
+			id: 3,
+			name: "Total. Rentals",
+			stat: RentalCount,
+			icon: CashIcon,
+		},
+	];
+
 	return (
 		<div className="space-y-10 divide-y">
 			<div>
 				<h3 className="text-lg font-medium leading-6 text-gray-900">
-					Last 30 days
+					Statistics
 				</h3>
 				<dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{stats.map((item) => (
 						<div
 							key={item.id}
-							className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+							className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-2 shadow sm:px-6 sm:pt-6"
 						>
 							<dt>
 								<div className="absolute rounded-md bg-indigo-500 p-3">
@@ -66,19 +64,6 @@ const Dashboard = () => {
 								<p className="text-2xl font-semibold text-gray-900">
 									{item.stat}
 								</p>
-
-								<div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
-									<div className="text-sm">
-										<a
-											href="#"
-											className="font-medium text-indigo-600 hover:text-indigo-500"
-										>
-											{" "}
-											View all
-											<span className="sr-only"> {item.name} stats</span>
-										</a>
-									</div>
-								</div>
 							</dd>
 						</div>
 					))}

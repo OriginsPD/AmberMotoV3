@@ -57,8 +57,8 @@ const Homepage = () => {
 									Reserve Now
 								</span>{" "}
 							</button>
-							<button className="group border-2 border-orange-600 px-10 py-3 hover:bg-orange-600">
-								<span className="text-md font-semibold uppercase text-orange-600 group-hover:text-white">
+							<button className="group border-2 border-white bg-white px-10 py-3">
+								<span className="text-md font-semibold uppercase text-orange-600">
 									{" "}
 									About Us
 								</span>{" "}

@@ -1,16 +1,27 @@
 import { CheckIcon, ExclamationIcon } from "@heroicons/react/outline";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BikeDetailApi from "../../api/bike/BikeDetailApi";
 import DotLoader from "../../components/loader/DotLoader";
 
 import CountUp from "react-countup";
 import RaceLoader from "../../components/loader/RaceLoader";
+import useToggle from "../../components/hooks/useToggle";
+import VehicleOverview from "./VehicleOverview";
 
 const SearchQuery = () => {
 	const { search } = useParams<string>();
-
 	const { BikeQuery, queryBike, isLoaded } = BikeDetailApi();
+
+	const { isOpen, toggleModal, closeModal } = useToggle();
+
+	const [clientID, setClientID] = useState<number>(0);
+
+	const viewDetails = (id: number) => {
+		setClientID(id);
+		toggleModal();
+	};
+
 	useEffect(() => {
 		BikeQuery(search);
 	}, [search]);
@@ -147,7 +158,10 @@ const SearchQuery = () => {
 													</div>
 												</td>
 												<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
-													<button className="text-indigo-600 hover:text-indigo-900">
+													<button
+														onClick={() => viewDetails(bike.id)}
+														className="text-indigo-600 hover:text-indigo-900"
+													>
 														View
 													</button>
 												</td>
@@ -159,6 +173,12 @@ const SearchQuery = () => {
 						</div>
 					</div>
 				</div>
+				<VehicleOverview
+					id={clientID}
+					isOpen={isOpen}
+					toggleModal={toggleModal}
+					closeModal={closeModal}
+				/>
 			</div>
 		</>
 	);

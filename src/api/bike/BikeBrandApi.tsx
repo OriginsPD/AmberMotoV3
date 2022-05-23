@@ -9,6 +9,7 @@ const BikeBrandApi = () => {
 		logo: string;
 	};
 	const [brands, setBrands] = useState<BrandProp[]>([]);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	const indexBrand = async () => {
 		const response = await fetch(`${accessHost}/brand`, {
@@ -19,9 +20,10 @@ const BikeBrandApi = () => {
 		const queryResponse = await response.json();
 
 		setBrands(queryResponse);
+		setIsLoaded(true);
 	};
 
-	return { brands, indexBrand };
+	return { brands, indexBrand, isLoaded };
 };
 
 export default BikeBrandApi;

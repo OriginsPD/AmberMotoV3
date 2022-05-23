@@ -85,7 +85,7 @@ const Advertisement = () => {
 							data-aos-duration="800"
 							className="pb-4 sm:flex sm:items-baseline sm:justify-between"
 						>
-							<h2 className="text-8xl font-extrabold tracking-tight text-gray-900">
+							<h2 className="text-7xl font-extrabold tracking-tight text-gray-900 lg:text-8xl">
 								NEW<span className="text-orange-700">ARRIVALS</span>
 							</h2>
 						</div>
@@ -95,7 +95,7 @@ const Advertisement = () => {
 							data-aos-offset="200"
 							data-aos-easing="ease-in-sine"
 							data-aos-once="true"
-							data-aos-duration="1400"
+							data-aos-duration="1200"
 							className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 lg:gap-x-8"
 						>
 							{latestBike.map((bike) => (

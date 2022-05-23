@@ -31,59 +31,68 @@ const IncomeStats = () => {
 		<div className="space-y-8 divide-y">
 			<div className="flex-auto justify-evenly lg:flex">
 				<div className="m-5">
-					<div className="my-2 bg-gray-50 ">
-						<span className="w-full py-3 px-5 text-center text-xl font-extrabold">
-							Top Associate With Most Sales
-						</span>
-					</div>
-					<div className="rounded-lg bg-white p-10 ">
-						<div className="flex flex-col items-center gap-1 text-center">
-							<h1 className="mx-auto mb-8 w-full text-lg font-bold leading-none tracking-tighter text-black lg:text-2xl lg:uppercase">
-								Accumulated Income
-							</h1>
-							<strong className="mx-auto mb-8 flex items-end justify-center text-center text-3xl font-black leading-none lg:text-4xl ">
-								<span
-									className={`${
-										highAssociate.incomeTotal == 0
-											? "text-red-500"
-											: "text-green-500"
-									}`}
-								>
-									{isLoaded ? (
-										logList.length == 0 ? (
-											0
-										) : (
-											//formatter.format(highAssociate.incomeTotal)
-											<Fragment>
-												${" "}
-												<CountUp
-													start={0}
-													end={highAssociate.incomeTotal}
-													duration={2}
-													separator={","}
-													decimal={"."}
-													decimals={2}
-												/>
-											</Fragment>
-										)
-									) : (
-										<div className="flex h-[7rem] items-center justify-center">
-											<Spinner />
+					{isLoaded ? (
+						logList.length == 0 ? (
+							0
+						) : (
+							//formatter.format(highAssociate.incomeTotal)
+							<Fragment>
+								<div className="card mx-auto w-full flex-col items-center justify-center  ">
+									<div className="my-2 w-full bg-gray-50 text-center ">
+										<span className="w-full py-3 px-5 text-center text-xl font-extrabold">
+											Top Associate With Most Sales
+										</span>
+									</div>
+									<img
+										className="mx-auto mt-20  w-32 rounded-full border-8 border-white"
+										src={`https://ui-avatars.com/api/?background=ff6600&color=fff&name=${highAssociate.employee?.user.username}`}
+										alt=""
+									/>
+									<div className="mt-2 text-center text-3xl font-medium">
+										{highAssociate.employee?.user.username}
+									</div>
+									<div className="mt-2 text-center text-sm font-light">
+										{highAssociate.employee?.user.email}
+									</div>
+
+									<div className="mt-2 px-6 text-center text-3xl font-light">
+										<Fragment>
+											${" "}
+											<CountUp
+												start={0}
+												end={highAssociate.incomeTotal}
+												duration={5}
+												separator={","}
+												decimal={"."}
+												decimals={2}
+											/>
+										</Fragment>
+									</div>
+									<hr className="mt-8" />
+									<div className="flex p-4">
+										<div className="w-1/2 text-center">
+											<span className="font-bold">1.8 k</span> Total Sales
 										</div>
-									)}
-								</span>
-							</strong>
-							<div className="flex ">
-								<p className="bg-gradient-to-tr from-blue-400 to-blue-400 bg-clip-text text-3xl font-extrabold text-transparent">
-									{highAssociate.employee?.user.username}
-								</p>
-							</div>
+										<div className="w-0 border border-gray-300"></div>
+										<div className="w-1/2 text-center">
+											<span className="font-bold">2.0 k</span> Bike Owned
+										</div>
+									</div>
+								</div>
+							</Fragment>
+						)
+					) : (
+						<div className="card mx-auto w-full flex-col items-center justify-center  ">
+							<Spinner />
 						</div>
-					</div>
+					)}
 				</div>
+
 				<div className="lg:mx-8 lg:w-5/12">
 					<AdminChart label={employeeNameList} chartData={numberOfSales} />
 				</div>
+
+				
 			</div>
 			<div className="py-8">
 				<>
@@ -113,6 +122,12 @@ const IncomeStats = () => {
 												</th>
 												<th
 													scope="col"
+													className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
+												>
+													Associate
+												</th>
+												<th
+													scope="col"
 													className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 												>
 													Fee Paid
@@ -128,12 +143,6 @@ const IncomeStats = () => {
 													className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 												>
 													Admin Percentage
-												</th>
-												<th
-													scope="col"
-													className="relative py-3.5 pl-3 pr-4 sm:pr-6 md:pr-0"
-												>
-													<span className="sr-only">View</span>
 												</th>
 											</tr>
 										</thead>
@@ -166,23 +175,17 @@ const IncomeStats = () => {
 														<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
 															{data.rental.bike.bike_model}
 														</td>
+														<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
+															{data.employee.user.username}
+														</td>
 														<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
 															{data.fee_paid}
 														</td>
 														<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-															{data.percentage_earn}
+															{data.percentage_earn * 100} %
 														</td>
 														<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
 															{(1.0 - data.percentage_earn) * 100} %
-														</td>
-														<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
-															<a
-																href="#"
-																className="text-indigo-600 hover:text-indigo-900"
-															>
-																View
-																<span className="sr-only">, {data.id}</span>
-															</a>
 														</td>
 													</tr>
 												))

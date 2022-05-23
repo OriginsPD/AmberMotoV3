@@ -79,6 +79,8 @@ const AssociateLayout = () => {
 										<div className="relative flex w-full justify-between text-gray-400 focus-within:text-gray-600">
 											<input
 												id="search-field"
+												maxLength={20}
+												minLength={5}
 												className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
 												placeholder="Search"
 												type="text"

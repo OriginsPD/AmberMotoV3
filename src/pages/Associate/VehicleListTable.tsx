@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import BikeDetailApi from "../../api/bike/BikeDetailApi";
 import DotLoader from "../../components/loader/DotLoader";
@@ -106,8 +107,19 @@ const VehicleListAssociate = () => {
 													{bike.bike_model}
 												</td>
 												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-													$ {bike.rental_fee}{" "}
-													<span className="text-xs capitalize">per day</span>
+													${" "}
+													<span className="text-xs capitalize">
+														{" "}
+														<CountUp
+															start={0}
+															end={bike.rental_fee}
+															duration={2}
+															separator={","}
+															decimal={"."}
+															decimals={2}
+														/>{" "}
+														per day
+													</span>
 												</td>
 												<td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
 													<span

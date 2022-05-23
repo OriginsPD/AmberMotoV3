@@ -40,6 +40,8 @@ import { useEffect } from "react";
 import ProfilePage from "./pages/genaral/ProfilePage";
 import SettingPage from "./pages/genaral/SettingPage";
 import SearchQuery from "./pages/Associate/SearchQuery";
+import BrandTable from "./pages/admin/BrandTable";
+import CategoryTable from "./pages/admin/CategoryTable";
 
 documentBody();
 
@@ -84,6 +86,8 @@ const App = () => {
 								<Route path="" element={<Dashboard />} />
 								<Route path="profile" element={<ProfilePage />} />
 								<Route path="setting" element={<SettingPage />} />
+								<Route path="brands" element={<BrandTable />} />
+								<Route path="category" element={<CategoryTable />} />
 								<Route path="pending" element={<Pending />} />
 								<Route path="income" element={<IncomeStats />} />
 								<Route path="rentals" element={<RentalTable />} />

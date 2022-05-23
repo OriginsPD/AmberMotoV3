@@ -7,6 +7,7 @@ import {
 	XIcon,
 } from "@heroicons/react/outline";
 import AssociateAuth from "../../../api/auth/AssociateAuth";
+import { NavLink } from "react-router-dom";
 
 function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
@@ -15,10 +16,10 @@ function classNames(...classes: string[]) {
 const CustomerDrop = () => {
 	const { logout } = AssociateAuth();
 	return (
-		<Menu as="div" className="relative ml-3">
+		<Menu as="div" className="relative ml-3 ">
 			<div>
 				<Menu.Button className="flex  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-gray-400">
-					<MenuIcon className="h-8 w-8 rounded-full" />
+					<MenuIcon className="h-8 w-8 rounded-full text-white" />
 				</Menu.Button>
 			</div>
 			<Transition
@@ -31,6 +32,30 @@ const CustomerDrop = () => {
 				leaveTo="transform opacity-0 scale-95"
 			>
 				<Menu.Items className="absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+					<Menu.Item>
+						<NavLink
+							className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm  text-gray-700"
+							to={"/brands"}
+						>
+							Brand
+						</NavLink>
+					</Menu.Item>
+					<Menu.Item>
+						<NavLink
+							className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm  text-gray-700"
+							to={"/catalogues"}
+						>
+							Catalogue
+						</NavLink>
+					</Menu.Item>
+					<Menu.Item>
+						<NavLink
+							className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm  text-gray-700"
+							to={"/members"}
+						>
+							Member
+						</NavLink>
+					</Menu.Item>
 					<Menu.Item>
 						{({ active }) => (
 							<a
