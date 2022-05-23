@@ -4,6 +4,7 @@ type AuthState = {
 	username: string;
 	email: string;
 	status: boolean;
+	created_at?: string;
 	personal_detail: {
 		user_id: number;
 		address: string;

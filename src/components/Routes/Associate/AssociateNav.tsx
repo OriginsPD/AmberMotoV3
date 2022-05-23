@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
 	CreditCardIcon,
@@ -38,6 +38,7 @@ type AssociateNavProps = {
 
 const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 	const { isOpen, closeModal, toggleModal, setIsOpen } = useToggle();
+
 	return (
 		<>
 			<NewBikeModal
@@ -104,8 +105,9 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 										<NavLink
 											key={item.name}
 											to={item.href}
-											className={
-												"group flex items-center rounded-md  py-2 px-2 text-base font-medium text-gray-900"
+											className={({ isActive }) =>
+												"group flex items-center rounded-md py-2 px-2 text-sm font-medium  hover:bg-gray-100 " +
+												(isActive ? "text-orange-500" : "text-black")
 											}
 										>
 											<item.icon
@@ -143,7 +145,7 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 				{/* Sidebar component, swap this element with another sidebar if you like */}
 				<div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5 scrollbar-hide">
 					<div className="flex flex-shrink-0 items-center px-4">
-						<div className="flex-col items-center justify-center space-x-2 text-2xl font-bold text-orange-500 drop-shadow-xl">
+						<div className="flex-col items-center justify-center space-x-2 text-2xl font-bold text-orange-500">
 							<div className="flex">
 								<ShieldCheckIcon className="h-8 w-auto text-orange-500" />
 								AmberMotors
@@ -157,8 +159,9 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 								<NavLink
 									key={item.name}
 									to={item.href}
-									className={
-										"group flex items-center rounded-md py-2 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+									className={({ isActive }) =>
+										"group flex items-center rounded-md py-2 px-2 text-sm font-medium  hover:bg-gray-100 " +
+										(isActive ? "text-orange-500" : "text-black")
 									}
 								>
 									<item.icon
@@ -168,7 +171,7 @@ const AssociateNav = ({ sidebarOpen, setSidebarOpen }: AssociateNavProps) => {
 									{item.name}
 								</NavLink>
 							))}
-							<div className=" w-full items-center space-x-2 py-8 text-center">
+							<div className=" ml-2 w-full items-center space-x-2 py-8 text-left">
 								<button
 									type="button"
 									onClick={toggleModal}

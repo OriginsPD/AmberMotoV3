@@ -1,8 +1,10 @@
 import DotLoader from "../../components/loader/DotLoader";
+import { RentalState } from "../../constants/ApiConfig";
 
 type clientProps = {
+	isLoaded: boolean;
 	toggleModal: () => void;
-	clientTable: string[] | number[];
+	clientTable: RentalState[];
 	setClientID: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -10,6 +12,7 @@ const ClientTable = ({
 	clientTable,
 	toggleModal,
 	setClientID,
+	isLoaded,
 }: clientProps) => {
 	const viewDetails = (id: number) => {
 		setClientID(id);
@@ -63,7 +66,7 @@ const ClientTable = ({
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-200">
-								{Object.keys(clientTable).length === 0 ? (
+								{!isLoaded ? (
 									<tr>
 										<td
 											colSpan={6}
@@ -74,7 +77,16 @@ const ClientTable = ({
 											</div>
 										</td>
 									</tr>
-								) : Object.keys(clientTable).length > 0 ? (
+								) : Object.keys(clientTable).length == 0 ? (
+									<tr>
+										<td
+											colSpan={6}
+											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
+										>
+											No Clients Found
+										</td>
+									</tr>
+								) : (
 									Object.values(clientTable).map((data) => (
 										<tr key={data.id}>
 											<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
@@ -95,22 +107,13 @@ const ClientTable = ({
 											<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
 												<button
 													onClick={() => viewDetails(data.id)}
-													className="text-indigo-600 hover:text-indigo-900"
+													className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
 												>
 													View<span className="sr-only">, View</span>
 												</button>
 											</td>
 										</tr>
 									))
-								) : (
-									<tr>
-										<td
-											colSpan={6}
-											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
-										>
-											Not Data Found
-										</td>
-									</tr>
 								)}
 							</tbody>
 						</table>

@@ -18,13 +18,13 @@ function classNames(...classes: string[]) {
 }
 
 const ClientAssociate = () => {
-	const { pastClientIndex, client, current, penalty } = ClientApi();
+	const { pastClientIndex, client, current, penalty, isLoaded } = ClientApi();
 
 	const { isOpen, toggleModal, closeModal } = useToggle();
 
 	const [clientID, setClientID] = useState<number>(0);
 
-	// console.log(clientID);
+	// console.log(isLoaded);
 
 	let [categories] = useState({
 		Clients: "",
@@ -73,6 +73,7 @@ const ClientAssociate = () => {
 									setClientID={setClientID}
 									toggleModal={toggleModal}
 									clientTable={client}
+									isLoaded={isLoaded}
 								/>
 							</Tab.Panel>
 							<Tab.Panel>
@@ -80,6 +81,7 @@ const ClientAssociate = () => {
 									setClientID={setClientID}
 									toggleModal={toggleModal}
 									currentTable={current}
+									isLoaded={isLoaded}
 								/>
 							</Tab.Panel>
 							<Tab.Panel>
@@ -87,6 +89,7 @@ const ClientAssociate = () => {
 									setClientID={setClientID}
 									toggleModal={toggleModal}
 									penaltyTable={penalty}
+									isLoaded={isLoaded}
 								/>
 							</Tab.Panel>
 						</Tab.Panels>

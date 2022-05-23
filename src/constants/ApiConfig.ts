@@ -22,6 +22,19 @@ export const defaultRequest: ApiRequestProps = {
 	},
 };
 
+export type InActiveUserProp = {
+	id: number;
+	username: number;
+	email: number;
+	status: boolean;
+	updated_at: string;
+	employee: {
+		id: number;
+		user_id: number;
+		active_flg: true | false;
+	};
+};
+
 export type RentalState = {
 	id: number;
 	user_id: number;
@@ -52,6 +65,40 @@ export type RentalState = {
 			username: string;
 			email: string;
 		};
+	};
+	user: {
+		username: string;
+		email: string;
+		status: boolean;
+		personal_detail: {
+			user_id: number;
+			address: string;
+			phone_number: number;
+		};
+	};
+};
+
+export type QueryBikeProps = {
+	id: number;
+	user_id: number;
+	employee_id: number;
+	bike_id: number;
+	payment_fee: number;
+	payment_status: false;
+	rental_status: boolean;
+	start_date: string;
+	end_date: string;
+	created_at: string;
+	bike: {
+		id: number;
+		employee_id: number;
+		brand_id: number;
+		category_id: number;
+		bike_model: string;
+		rental_fee: number;
+		availability: boolean;
+		image_path: string;
+		status: boolean;
 	};
 	user: {
 		username: string;

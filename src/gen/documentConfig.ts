@@ -3,5 +3,5 @@ export const documentTitle = (newTitle: string) => {
 };
 
 export const documentBody = () => {
-	return (document.body.className = "scrollbar-hide");
+	return (document.body.className = "scrollbar-hide scroll-smooth");
 };

@@ -83,7 +83,7 @@ const EmployeeTable = () => {
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Status
+											Associate Status
 										</th>
 										<th
 											scope="col"
@@ -118,7 +118,7 @@ const EmployeeTable = () => {
 												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
 													{person.user.email}
 												</td>
-												<td className="w-10/12 whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
+												<td className=" truncate whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
 													{person.user.personal_detail?.address ??
 														"No Address Added"}
 												</td>

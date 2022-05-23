@@ -24,6 +24,8 @@ const VehicleOverview = ({
 	useEffect(() => {
 		clientFind(id);
 	}, [id]);
+
+	
 	return (
 		<>
 			<Transition appear show={isOpen} as={Fragment}>

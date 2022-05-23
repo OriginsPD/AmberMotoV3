@@ -133,14 +133,14 @@ const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
 				<div
 					className={`mt-10 ${
 						query ? "" : "h-full"
-					} lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center`}
+					} h-96 max-w-2xl border lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center`}
 				>
 					{query ? (
-						<div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
+						<div className="aspect-w-1 aspect-h-1 h-full overflow-hidden rounded-lg">
 							<img
 								src={imageSrc}
 								alt={product.imageAlt}
-								className="h-full w-full object-fill object-center"
+								className="h-full w-full object-cover object-center"
 							/>
 						</div>
 					) : (

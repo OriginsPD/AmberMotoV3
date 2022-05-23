@@ -37,11 +37,17 @@ import aos from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 
+import ProfilePage from "./pages/genaral/ProfilePage";
+import SettingPage from "./pages/genaral/SettingPage";
+import SearchQuery from "./pages/Associate/SearchQuery";
+
 documentBody();
 
 const App = () => {
 	useEffect(() => {
-		aos.init();
+		aos.init({
+			duration: 1200,
+		});
 	}, []);
 	return (
 		<Router>
@@ -62,21 +68,26 @@ const App = () => {
 						<Route element={<AccessPermission role={2} />}>
 							<Route path="/Associate" element={<AssociateLayout />}>
 								<Route path="" element={<Index />} />
+								<Route path="profile" element={<ProfilePage />} />
+								<Route path="setting" element={<SettingPage />} />
 								<Route path="wallet" element={<Wallet />} />
 								<Route path="client" element={<ClientAssociate />} />
 								<Route path="vehicleList" element={<VehicleListTable />} />
 								<Route path="vehicleStatus" element={<VehicleStatusTable />} />
 								<Route path="vehicleUpdate/:id" element={<BikeEdit />} />
+								<Route path="searchQuery/:search" element={<SearchQuery />} />
 							</Route>
 						</Route>
 
 						<Route element={<AccessPermission role={3} />}>
 							<Route path="/Admin" element={<AdminLayout />}>
 								<Route path="" element={<Dashboard />} />
+								<Route path="profile" element={<ProfilePage />} />
+								<Route path="setting" element={<SettingPage />} />
+								<Route path="pending" element={<Pending />} />
+								<Route path="income" element={<IncomeStats />} />
 								<Route path="rentals" element={<RentalTable />} />
 								<Route path="salesLog" element={<SalesLogTable />} />
-								<Route path="income" element={<IncomeStats />} />
-								<Route path="pending" element={<Pending />} />
 							</Route>
 						</Route>
 					</Routes>

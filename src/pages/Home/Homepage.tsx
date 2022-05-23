@@ -20,7 +20,10 @@ const Homepage = () => {
 
 	return (
 		<>
-			<section className="bg-white-800/50 h-screen w-screen overflow-hidden lg:relative lg:flex lg:justify-between">
+			<section
+				id="top"
+				className="h-screen w-screen overflow-hidden bg-orange-700 lg:relative lg:flex lg:justify-between"
+			>
 				<img
 					className="absolute inset-0 top-[4.7rem] h-full w-full overflow-hidden object-cover object-[75%] opacity-25 sm:object-[25%] sm:opacity-100 lg:top-0"
 					src="https://cdn.pixabay.com/photo/2021/12/13/09/46/moto-bikes-6867911_960_720.jpg"

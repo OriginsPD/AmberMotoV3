@@ -2,10 +2,11 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuIcon, LogoutIcon } from "@heroicons/react/outline";
 import AssociateAuth from "../../../api/auth/AssociateAuth";
+import { NavLink } from "react-router-dom";
 
 const userNavigation = [
-	{ name: "Your Profile", href: "#" },
-	{ name: "Settings", href: "#" },
+	{ name: "Your Profile", href: "/Admin/profile" },
+	// { name: "Settings", href: "/Admin/setting" },
 ];
 
 function classNames(...classes: string[]) {
@@ -33,15 +34,15 @@ const AdminDrop = () => {
 						{userNavigation.map((item) => (
 							<Menu.Item key={item.name}>
 								{({ active }) => (
-									<a
-										href={item.href}
+									<NavLink
+										to={item.href}
 										className={classNames(
 											active ? "bg-gray-100" : "",
 											" flex w-full items-center space-x-1 px-4 py-2 text-sm text-gray-700"
 										)}
 									>
 										<span>{item.name}</span>
-									</a>
+									</NavLink>
 								)}
 							</Menu.Item>
 						))}

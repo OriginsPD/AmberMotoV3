@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import EmployeeTable from "./EmployeeTable";
 import PendingTable from "./PendingTable";
-import UnActiveTable from "./UnActiveTable";
+import InActiveTable from "./InActiveTable";
 
 function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
@@ -21,9 +21,8 @@ const people = [
 
 const Pending = () => {
 	const [categories, setCategories] = useState([
-		{ name: "All Associate" },
 		{ name: "Pending Associate" },
-		{ name: "UnActive Associate" },
+		{ name: "InActive Associate" },
 	]);
 
 	return (
@@ -50,13 +49,10 @@ const Pending = () => {
 					</Tab.List>
 					<Tab.Panels className="mt-2 w-full">
 						<Tab.Panel>
-							<EmployeeTable />
-						</Tab.Panel>
-						<Tab.Panel>
 							<PendingTable />
 						</Tab.Panel>
 						<Tab.Panel>
-							<UnActiveTable data={people} />
+							<InActiveTable data={people} />
 						</Tab.Panel>
 					</Tab.Panels>
 				</Tab.Group>

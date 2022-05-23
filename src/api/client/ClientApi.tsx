@@ -1,20 +1,34 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import useToken from "../../components/hooks/useToken";
 import {
 	accessHost,
 	defaultRequest,
 	BikeDetailProp,
+	RentalState,
 } from "../../constants/ApiConfig";
 const ClientApi = () => {
 	const { token } = useToken();
 
-	const [client, setClient] = useState([]);
-	const [current, setCurrent] = useState([]);
-	const [penalty, setPenalty] = useState([]);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+	const [client, setClient] = useState<RentalState[]>([]);
+	const [current, setCurrent] = useState<RentalState[]>([]);
+	const [penalty, setPenalty] = useState<RentalState[]>([]);
 
 	const [queryBike, setQueryBike] = useState<BikeDetailProp>(
 		{} as BikeDetailProp
 	);
+
+	const setStateValues = (data: {
+		past: SetStateAction<RentalState[]>;
+		current: SetStateAction<RentalState[]>;
+		penalty: SetStateAction<RentalState[]>;
+	}) => {
+		setClient(data.past);
+		setCurrent(data.current);
+		setPenalty(data.penalty);
+		setIsLoaded(true);
+	};
 
 	const pastClientIndex = async () => {
 		const response = await fetch(`${accessHost}/client`, {
@@ -27,10 +41,8 @@ const ClientApi = () => {
 		});
 
 		const queryResponse = await response.json();
-		if (queryResponse.status === 200) {
-			setClient(queryResponse.past);
-			setCurrent(queryResponse.current);
-			setPenalty(queryResponse.penalty);
+		if (response.status === 200) {
+			setStateValues(queryResponse);
 		} else {
 			console.log("failed");
 		}
@@ -43,15 +55,15 @@ const ClientApi = () => {
 			...defaultRequest,
 			method: "GET",
 			headers: {
-			Authorization: `Bearer ${token}`,
-			Accept: "application/json",
+				Authorization: `Bearer ${token}`,
+				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
 		});
 
 		const queryResponse = await response.json();
 
-		if (queryResponse.status === 200) {
+		if (response.status === 200) {
 			setQueryBike(queryResponse.body);
 		} else {
 			console.log("failed");
@@ -60,7 +72,15 @@ const ClientApi = () => {
 		// console.log(queryResponse.body);
 	};
 
-	return { pastClientIndex, clientFind, queryBike, client, current, penalty };
+	return {
+		pastClientIndex,
+		clientFind,
+		queryBike,
+		client,
+		current,
+		penalty,
+		isLoaded,
+	};
 };
 
 export default ClientApi;

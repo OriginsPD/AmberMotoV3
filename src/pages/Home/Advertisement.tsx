@@ -68,25 +68,26 @@ const Advertisement = () => {
 
 	const latestBike = Object.values(vehicleCatalogue).slice(0, 3);
 
-	console.log(latestBike);
+	// console.log(latestBike);
 
 	return (
 		<Fragment>
 			{/* 3 Random Bike Advertisement */}
 
 			<section>
-				<div className="bg-white">
+				<div className="my-8 bg-white">
 					<div className="mx-auto max-w-7xl py-4 px-4 sm:py-10 sm:px-6 lg:px-8">
-						<div className="sm:flex sm:items-baseline sm:justify-between">
+						<div
+							data-aos="slide-right"
+							data-aos-offset="200"
+							data-aos-easing="ease-in-sine"
+							data-aos-once="true"
+							data-aos-duration="800"
+							className="pb-4 sm:flex sm:items-baseline sm:justify-between"
+						>
 							<h2 className="text-8xl font-extrabold tracking-tight text-gray-900">
-								NEW ARRIVALS
+								NEW<span className="text-orange-700">ARRIVALS</span>
 							</h2>
-							<a
-								href="#"
-								className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
-							>
-								Browse all favorites<span aria-hidden="true"> &rarr;</span>
-							</a>
 						</div>
 
 						<div
@@ -94,27 +95,50 @@ const Advertisement = () => {
 							data-aos-offset="200"
 							data-aos-easing="ease-in-sine"
 							data-aos-once="true"
-							data-aos-duration="800"
+							data-aos-duration="1400"
 							className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 lg:gap-x-8"
 						>
 							{latestBike.map((bike) => (
 								<div key={bike.id} className="group relative">
-									<div className="sm:aspect-w-2 sm:aspect-h-3 h-96 w-full overflow-hidden rounded-lg group-hover:opacity-75 sm:h-auto">
+									<div className="sm:aspect-w-2 sm:aspect-h-3 h-96 w-full overflow-hidden rounded-lg group-hover:opacity-75 ">
 										<img
 											src={imageUrl + bike.image_path}
 											alt={"Image of Latest Bike"}
 											className="h-full w-full object-cover object-center"
 										/>
 									</div>
-									<h3 className="mt-4 text-base font-semibold text-gray-900">
-										<a href={`/${bike.id}`}>
-											<span className="absolute inset-0" />
-											{bike.bike_model}
-										</a>
-									</h3>
-									<p className="mt-1 text-sm text-gray-500">
-										{bike.rental_fee}
-									</p>
+									<div className="absolute inset-0 z-20 flex h-full w-auto items-end justify-center bg-gradient-to-t from-black/80 to-transparent">
+										<div className="flex w-auto items-end justify-between">
+											<div className="m-5 w-full flex-col text-left text-white">
+												<h3 className="mt-4  text-2xl font-semibold ">
+													<div>
+														<span className="absolute inset-0" />
+														{bike.bike_model}
+													</div>
+												</h3>
+												<p className="text-md mt-1 ">
+													$
+													<CountUp
+														start={0}
+														end={bike.rental_fee}
+														duration={2}
+														separator={","}
+														decimal={"."}
+														decimals={2}
+													/>
+												</p>
+											</div>
+
+											<div className="z-10 m-2 flex w-full items-end whitespace-nowrap text-center">
+												<a
+													href={`/${bike.id}`}
+													className="rounded-md border-2 border-white px-8 py-2 text-white"
+												>
+													Reserve Now
+												</a>
+											</div>
+										</div>
+									</div>
 								</div>
 							))}
 						</div>
@@ -263,7 +287,6 @@ const Advertisement = () => {
 				data-aos-easing="ease-in-sine"
 				data-aos-once="true"
 				data-aos-duration="800"
-				className="bg-white"
 			>
 				<div aria-hidden="true" className="relative">
 					<img
@@ -288,7 +311,14 @@ const Advertisement = () => {
 						</p>
 					</div>
 
-					<dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:max-w-none lg:grid-cols-3 lg:gap-x-8">
+					<dl
+						data-aos="slide-up"
+						data-aos-offset="300"
+						data-aos-easing="ease-in-sine"
+						data-aos-once="true"
+						data-aos-duration="1000"
+						className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:max-w-none lg:grid-cols-3 lg:gap-x-8"
+					>
 						{features.map((feature) => (
 							<div key={feature.name} className="border-t border-gray-200 pt-4">
 								<div className="flex items-center space-x-3">

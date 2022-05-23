@@ -4,27 +4,19 @@ import {
 	accessHost,
 	defaultRequest,
 	EmployeeProps,
-	XSRFTOKEN,
+	InActiveUserProp,
 } from "../../constants/ApiConfig";
-
-type UnActiveUserProp = {
-	id: number;
-	username: number;
-	email: number;
-	status: number;
-	employee: [
-		{
-			id: number;
-			user_id: number;
-			active_flg: boolean;
-		}
-	];
-};
 
 const EmployeeApi = () => {
 	const { token } = useToken();
 
 	const [isLoaded, setIsLoad] = useState(false);
+
+	const [refresh, setRefresh] = useState(0);
+
+	const [employeeInfo, setEmployeeInfo] = useState<EmployeeProps>(
+		{} as EmployeeProps
+	);
 
 	const [employee, setEmployee] = useState<EmployeeProps[]>(
 		{} as EmployeeProps[]
@@ -33,8 +25,8 @@ const EmployeeApi = () => {
 		{} as EmployeeProps[]
 	);
 
-	const [unActiveEmployee, setUnActiveEmployee] = useState<UnActiveUserProp[]>(
-		{} as UnActiveUserProp[]
+	const [inActiveEmployee, setInActiveEmployee] = useState<InActiveUserProp[]>(
+		{} as InActiveUserProp[]
 	);
 
 	useEffect(() => {
@@ -44,7 +36,7 @@ const EmployeeApi = () => {
 				method: "GET",
 				headers: {
 					Authorization: `Bearer ${token}`,
-					"X-XSRF-TOKEN": XSRFTOKEN,
+					Accept: "application/json",
 				},
 			});
 
@@ -57,17 +49,54 @@ const EmployeeApi = () => {
 			return queryResponse;
 		};
 		fetchEmployee();
-	}, [token]);
+	}, [token, refresh]);
+
+	// const indexEmployee = async () => {
+	// 	const response = await fetch(`${accessHost}/employee`, {
+	// 		...defaultRequest,
+	// 		method: "GET",
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 			Accept: "application/json",
+	// 		},
+	// 	});
+
+	// 	const queryResponse = await response.json();
+
+	// 	response.status == 200
+	// 		? setEmployeeDetails(queryResponse)
+	// 		: console.log(response.status);
+	// };
 
 	const setEmployeeDetails = (data: {
 		query: SetStateAction<EmployeeProps[]>;
 		pending: SetStateAction<EmployeeProps[]>;
-		unActive: SetStateAction<UnActiveUserProp[]>;
+		unActive: SetStateAction<InActiveUserProp[]>;
 	}) => {
 		setEmployee(data.query);
 		setEmployeePending(data.pending);
-		setUnActiveEmployee(data.unActive);
+		setInActiveEmployee(data.unActive);
 		setIsLoad(true);
+	};
+
+	const EmployeeShow = async (id: number) => {
+		const response = await fetch(`${accessHost}/employee/${id}`, {
+			...defaultRequest,
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		const queryResponse = await response.json();
+
+		if (response.status == 200) {
+			setIsLoad(true);
+			setEmployeeInfo(queryResponse.body);
+		} else {
+			console.log("missed");
+		}
 	};
 
 	const EmployeeUpdate = async (ids: any) => {
@@ -79,19 +108,57 @@ const EmployeeApi = () => {
 			headers: {
 				"Content-type": "application/x-www-form-urlencoded",
 				Accept: "application/json",
-				"X-XSRF-TOKEN": XSRFTOKEN,
 				Authorization: `Bearer ${token}`,
 			},
 			body: urlencoded,
 		});
+
+		response.status == 200
+			? setRefresh((pre) => pre + 2)
+			: console.log("missed");
 	};
 
-	return { employee, isLoaded, employeePending, EmployeeUpdate };
+	return {
+		// States
+		isLoaded,
+		employee,
+		employeeInfo,
+
+		// Functions
+		EmployeeShow,
+		setRefresh,
+		//indexEmployee,
+		EmployeeUpdate,
+		employeePending,
+		inActiveEmployee,
+	};
 };
 
 export default EmployeeApi;
 
+export const RefreshEmployeeList = () => {
+	const { setRefresh } = EmployeeApi();
+	return { setRefresh };
+};
+
 export const EmployeeList = () => {
-	const { employee, isLoaded, employeePending } = EmployeeApi();
-	return { employee, isLoaded, employeePending };
+	const {
+		employee,
+		isLoaded,
+		inActiveEmployee,
+		//indexEmployee,
+		employeePending,
+	} = EmployeeApi();
+	return {
+		employee,
+		isLoaded,
+		//indexEmployee,
+		inActiveEmployee,
+		employeePending,
+	};
+};
+
+export const SingleEmployeeInfo = () => {
+	const { EmployeeShow, employeeInfo } = EmployeeApi();
+	return { EmployeeShow, employeeInfo };
 };

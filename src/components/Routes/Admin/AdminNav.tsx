@@ -18,8 +18,8 @@ const navigation = [
 	{ name: "Pending Applications", href: "/Admin/pending" },
 ];
 const userNavigation = [
-	{ name: "Your Profile", href: "#" },
-	{ name: "Settings", href: "#" },
+	{ name: "Your Profile", href: "/Admin/profile" },
+	// { name: "Settings", href: "/Admin/setting" },
 	{ name: "Sign out", href: "#" },
 ];
 

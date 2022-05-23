@@ -12,6 +12,8 @@ const AdminLayout = () => {
 		"/Admin/salesLog",
 		"/Admin/income",
 		"/Admin/pending",
+		"/Admin/profile",
+		"/Admin/setting",
 	];
 
 	// console.log(currentLocation);

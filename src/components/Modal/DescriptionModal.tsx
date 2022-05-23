@@ -1,13 +1,27 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { Fragment, useEffect } from "react";
+import { SingleEmployeeInfo } from "../../api/employee/EmployeeApi";
+import { EmployeeProps } from "../../constants/ApiConfig";
 
 type DescriptionModalProps = {
 	isOpen: boolean;
 	closeModal: () => void;
+	id: number;
 };
 
-const DescriptionModal = ({ isOpen, closeModal }: DescriptionModalProps) => {
+const DescriptionModal = ({
+	isOpen,
+	closeModal,
+	id,
+}: DescriptionModalProps) => {
+	const { EmployeeShow, employeeInfo } = SingleEmployeeInfo();
+
+	useEffect(() => {
+		EmployeeShow(id);
+	}, [id]);
+
+	// console.log(employeeInfo);
 	return (
 		<Fragment>
 			<Transition appear show={isOpen} as={Fragment}>
@@ -52,15 +66,16 @@ const DescriptionModal = ({ isOpen, closeModal }: DescriptionModalProps) => {
 														Full name
 													</dt>
 													<dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-														Margot Foster
+														{employeeInfo?.user?.username}
 													</dd>
 												</div>
 												<div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 													<dt className="text-sm font-medium text-gray-500">
-														Application for
+														Contact Information
 													</dt>
 													<dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-														Backend Developer
+														{employeeInfo?.user?.personal_detail
+															?.phone_number ?? 8761114444}
 													</dd>
 												</div>
 												<div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -68,28 +83,16 @@ const DescriptionModal = ({ isOpen, closeModal }: DescriptionModalProps) => {
 														Email address
 													</dt>
 													<dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-														margotfoster@example.com
-													</dd>
-												</div>
-												<div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-													<dt className="text-sm font-medium text-gray-500">
-														Salary expectation
-													</dt>
-													<dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-														$120,000
+														{employeeInfo?.user?.email}
 													</dd>
 												</div>
 												<div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 													<dt className="text-sm font-medium text-gray-500">
-														About
+														Address
 													</dt>
 													<dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-														Fugiat ipsum ipsum deserunt culpa aute sint do
-														nostrud anim incididunt cillum culpa consequat.
-														Excepteur qui ipsum aliquip consequat sint. Sit id
-														mollit nulla mollit nostrud in ea officia proident.
-														Irure nostrud pariatur mollit ad adipisicing
-														reprehenderit deserunt qui eu.
+														{employeeInfo?.user?.personal_detail?.address ??
+															"No Address Added"}
 													</dd>
 												</div>
 												<div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

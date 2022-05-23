@@ -1,6 +1,12 @@
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import {
+	Navigate,
+	NavLink,
+	Outlet,
+	useLocation,
+	useNavigate,
+} from "react-router-dom";
 
-import { Fragment, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { MenuAlt2Icon } from "@heroicons/react/outline";
 import { MenuAlt1Icon, SearchIcon } from "@heroicons/react/solid";
@@ -13,21 +19,37 @@ const AssociateLayout = () => {
 	const { logout } = AssociateAuth();
 
 	const location = useLocation();
+	const navigate = useNavigate();
 	const pageName = location?.pathname || "Dashboard";
+
+	const [searchString, setSearchString] = useState<string>("");
 
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const userNavigation = [
-		// { name: "Your Profile", href: "#" },
-		// { name: "Settings", href: "#" },
-		{ name: "Sign out", href: logout },
+		{ name: "Your Profile", href: "/Associate/profile" },
+		// { name: "Settings", href: "/Associate/setting" },
+		// { name: "Sign out", href: logout },
 	];
+
+	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		// console.log(searchString);
+
+		navigate(`/Associate/searchQuery/${searchString}`);
+		setSearchString("");
+	};
+
+	const storeSearchString = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setSearchString((preString) => value);
+	};
 
 	useEffect(() => {
 		documentTitle("Associate");
 	}, []);
 
-	// console.log(pageName);
+	// console.log(pageName.length);
 
 	return (
 		<>
@@ -50,21 +72,24 @@ const AssociateLayout = () => {
 							</button>
 							<div className="flex flex-1 justify-between px-4 md:px-0">
 								<div className="my-4 flex w-full flex-1">
-									<form className="w-full">
+									<form onSubmit={onSubmit} className="w-full">
 										<label htmlFor="search-field" className="sr-only">
 											Search
 										</label>
-										<div className="relative w-full text-gray-400 focus-within:text-gray-600">
-											<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-												<SearchIcon className="h-5 w-5" aria-hidden="true" />
-											</div>
+										<div className="relative flex w-full justify-between text-gray-400 focus-within:text-gray-600">
 											<input
 												id="search-field"
 												className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
 												placeholder="Search"
-												type="search"
+												type="text"
 												name="search"
+												required
+												value={searchString}
+												onChange={storeSearchString}
 											/>
+											<button type="submit" className="">
+												<SearchIcon className="h-7 w-auto" aria-hidden="true" />
+											</button>
 										</div>
 									</form>
 								</div>
@@ -88,16 +113,26 @@ const AssociateLayout = () => {
 											<Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 												{userNavigation.map((item) => (
 													<Menu.Item key={item.name}>
-														<button
-															onClick={item.href}
+														<NavLink
+															to={item.href}
 															className={
 																"block w-full py-2 px-4 text-left text-sm font-semibold text-gray-700 hover:bg-gray-100"
 															}
 														>
 															{item.name}
-														</button>
+														</NavLink>
 													</Menu.Item>
 												))}
+												<Menu.Item>
+													<button
+														onClick={logout}
+														className={
+															"block w-full py-2 px-4 text-left text-sm font-semibold text-gray-700 hover:bg-gray-100"
+														}
+													>
+														Sign Out
+													</button>
+												</Menu.Item>
 											</Menu.Items>
 										</Transition>
 									</Menu>
@@ -109,9 +144,15 @@ const AssociateLayout = () => {
 							<div className="py-6">
 								<div className="px-4 sm:px-6 md:px-0">
 									<h1 className="text-2xl font-semibold capitalize text-gray-900">
-										{pageName === "/Associate"
+										{pageName.length >= 23 &&
+										pageName.length != 26 &&
+										pageName !== "/Associate/vehicleStatus"
+											? decodeURI(pageName.slice(23))
+											: pageName.length == 26
+											? "Edit Vehicle"
+											: pageName === "/Associate"
 											? "Dashboard"
-											: pageName.replace("/Associate/", "")}
+											: decodeURI(pageName.replace("/Associate/", ""))}
 									</h1>
 								</div>
 								<div className="px-4 sm:px-6 md:px-0">

@@ -1,15 +1,18 @@
 import DotLoader from "../../components/loader/DotLoader";
+import { RentalState } from "../../constants/ApiConfig";
 
 type CurrentTableProp = {
 	setClientID: React.Dispatch<React.SetStateAction<number>>;
-	currentTable: string[] | number[];
+	currentTable: RentalState[];
 	toggleModal: () => void;
+	isLoaded: boolean;
 };
 
 const CurrentTable = ({
 	currentTable,
 	toggleModal,
 	setClientID,
+	isLoaded,
 }: CurrentTableProp) => {
 	const viewDetails = (id: number) => {
 		setClientID(id);
@@ -68,7 +71,7 @@ const CurrentTable = ({
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-200">
-								{Object.keys(currentTable).length === 0 ? (
+								{!isLoaded ? (
 									<tr>
 										<td
 											colSpan={6}
@@ -79,7 +82,16 @@ const CurrentTable = ({
 											</div>
 										</td>
 									</tr>
-								) : Object.keys(currentTable).length > 0 ? (
+								) : Object.keys(currentTable).length == 0 ? (
+									<tr>
+										<td
+											colSpan={6}
+											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
+										>
+											No Current Rentals Found
+										</td>
+									</tr>
+								) : (
 									Object.values(currentTable).map((data) => (
 										<tr key={data.id}>
 											<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
@@ -121,17 +133,7 @@ const CurrentTable = ({
 											</td>
 										</tr>
 									))
-								) : (
-									<tr>
-										<td
-											colSpan={6}
-											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
-										>
-											Not Data Found
-										</td>
-									</tr>
 								)}
-								{}
 							</tbody>
 						</table>
 					</div>

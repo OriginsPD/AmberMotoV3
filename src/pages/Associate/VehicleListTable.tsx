@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import BikeDetailApi from "../../api/bike/BikeDetailApi";
 import DotLoader from "../../components/loader/DotLoader";
+import { imageUrl } from "../../constants/ImageConfig";
 
 const VehicleListAssociate = () => {
 	const { bikeDetailIndex, bikeList } = BikeDetailApi();
@@ -26,9 +27,15 @@ const VehicleListAssociate = () => {
 				<div className="mt-8 flex flex-col">
 					<div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-							<table className="min-w-full divide-y divide-gray-300">
+							<table className="table min-w-full table-auto divide-y divide-gray-300">
 								<thead>
 									<tr>
+										<th
+											scope="col"
+											className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
+										>
+											<span className="sr-only">preview</span>
+										</th>
 										<th
 											scope="col"
 											className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
@@ -82,6 +89,13 @@ const VehicleListAssociate = () => {
 									) : (
 										Object.values(bikeList).map((bike) => (
 											<tr key={bike.id}>
+												<td className="whitespace-nowrap rounded-full py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
+													<img
+														src={imageUrl + bike.image_path}
+														// onClick={}
+														className=" h-12 w-auto rounded-xl object-cover "
+													/>
+												</td>
 												<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
 													{bike.category.category_nm}
 												</td>

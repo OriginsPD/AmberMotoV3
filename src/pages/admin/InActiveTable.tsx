@@ -1,65 +1,63 @@
-import { NavLink } from "react-router-dom";
-
 import {
-	CheckCircleIcon,
-	CheckIcon,
 	ExclamationCircleIcon,
-	MailIcon,
+	PaperAirplaneIcon,
+	TrashIcon,
 	UserAddIcon,
 } from "@heroicons/react/outline";
 import React, { Fragment, useEffect, useState } from "react";
-
-import EmployeeApi, {
-	EmployeeList,
-	RefreshEmployeeList,
-} from "../../api/employee/EmployeeApi";
-import { EmployeeProps } from "../../constants/ApiConfig";
+import { EmployeeList } from "../../api/employee/EmployeeApi";
 
 import ReactPaginate from "react-paginate";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
 import RaceLoader from "../../components/loader/RaceLoader";
+
+import { InActiveUserProp } from "../../constants/ApiConfig";
 import CheckBox from "../../components/inputElement/CheckBox";
-import useToggle from "../../components/hooks/useToggle";
-import DescriptionModal from "../../components/Modal/DescriptionModal";
 
-const PendingTable = () => {
-	const { EmployeeUpdate } = EmployeeApi();
+type InActiveTableProp = {
+	data: {
+		name: string;
+		title: string;
+		email: string;
+		role: string;
+	}[];
+};
 
-	const { employee, isLoaded, employeePending } = EmployeeList();
+const InActiveTable = ({ data }: InActiveTableProp) => {
+	const { inActiveEmployee, isLoaded, employee } = EmployeeList();
 
-	const { setRefresh } = RefreshEmployeeList();
-
-	const [employeeId, setEmployeeId] = useState<number>(0);
 	const [pageCount, setPageCount] = useState(0);
-	const { isOpen, closeModal, toggleModal } = useToggle();
-	const [currentEmployee, setCurrentEmployee] = useState<EmployeeProps[]>(
-		{} as EmployeeProps[]
+	const [selected, setSelected] = useState<number[]>([]);
+	const [currentEmployee, setCurrentEmployee] = useState<InActiveUserProp[]>(
+		{} as InActiveUserProp[]
 	);
 
-	const [selected, setSelected] = useState<number[]>([]);
+	const handleClick = async (data: { selected: any }) => {
+		let currentPage = data.selected + 1;
 
-	const ActiveEmployee = () => {
-		EmployeeUpdate(selected);
-		setTimeout(() => {
-			setSelected([]);
-			setRefresh((pre) => pre + 1);
-			//indexEmployee();
-		}, 50);
+		// console.log(currentPage);
+		let firstPageIndex = currentPage * 5;
+		let lastPageIndex = firstPageIndex + 5;
+
+		setCurrentEmployee(
+			Object.values(inActiveEmployee).slice(firstPageIndex, lastPageIndex)
+		);
+
+		// console.log(currentEmployee);
 	};
 
-	const viewEmployee = (id: React.SetStateAction<number>) => {
-		setEmployeeId(id);
-		toggleModal();
+	const ActiveEmployee = () => {
+		console.log(selected);
 	};
 
 	// Multiple Check
 
 	const checkAll = () => {
-		if (selected.length == employee.length) {
+		if (selected.length == inActiveEmployee.length) {
 			setSelected([]);
 		} else {
-			setSelected(() => employee.map((value) => value.id));
+			setSelected(() => inActiveEmployee.map((value) => value.id));
 		}
 		console.log(selected);
 	};
@@ -70,72 +68,60 @@ const PendingTable = () => {
 		selected.includes(id)
 			? setSelected(() => selected.filter((value) => value !== id))
 			: setSelected([...selected, id]);
-		// console.log(selected);
-	};
-
-	const handleClick = async (data: { selected: any }) => {
-		let currentPage = data.selected + 1;
-
-		// console.log(currentPage);
-		let firstPageIndex = currentPage * 5;
-		let lastPageIndex = firstPageIndex + 5;
-
-		setCurrentEmployee(
-			Object.values(employeePending).slice(firstPageIndex, lastPageIndex)
-		);
+		console.log(selected);
 	};
 
 	useEffect(() => {
-		setPageCount(Math.ceil(Object.keys(employeePending).length / 5 - 1));
-		setCurrentEmployee(Object.values(employeePending).slice(5, 10));
-	}, [employeePending]);
-	// console.log(currentEmployee);
+		setPageCount(Math.ceil(Object.keys(inActiveEmployee).length / 5 - 1));
+		setCurrentEmployee(Object.values(inActiveEmployee).slice(5, 10));
+	}, [inActiveEmployee]);
+
+	//console.log(inActiveEmployee);
+
 	return (
 		<Fragment>
-			<DescriptionModal
-				isOpen={isOpen}
-				closeModal={closeModal}
-				id={employeeId}
-			/>
-
 			<div className="px-4 sm:px-6 lg:px-8">
 				<div className="border-b border-gray-200 py-2 pb-5 sm:flex sm:items-center sm:justify-between">
 					<h1 className="text-xl font-semibold text-gray-900">
-						New Associate Applicants
+						InActive Associate Applicants
 					</h1>
 					<div className="mt-3 flex sm:mt-0 sm:ml-4">
-						{/* <button
-							type="button"
-							className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-						>
-							<MailIcon className="h-5 w-auto pr-2" />
-							Email
-						</button> */}
 						<button
 							type="button"
-							onClick={ActiveEmployee}
 							disabled={selected.length == 0 ? true : false}
 							className={`ml-3 inline-flex items-center rounded-md border border-transparent ${
-								selected.length == 0
-									? "bg-orange-600 hover:bg-orange-700 focus:ring-orange-500"
-									: "bg-green-600 hover:bg-green-700 focus:ring-green-500"
-							}  px-4 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-2  focus:ring-offset-2`}
+								selected.length == 0 ? "opacity-60" : ""
+							} bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
 						>
 							{selected.length != 0 ? (
-								<CheckCircleIcon className="h-5 w-auto pr-2" />
+								<PaperAirplaneIcon className="h-5 w-auto pr-2" />
 							) : (
 								<ExclamationCircleIcon className="h-5 w-auto pr-2" />
 							)}
-							Active Account
+							Re-Activate
+						</button>
+
+						<button
+							type="button"
+							disabled={selected.length == 0 ? true : false}
+							className={`ml-3 inline-flex items-center rounded-md border ${
+								selected.length == 0 ? "opacity-60" : ""
+							} border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2`}
+						>
+							{selected.length != 0 ? (
+								<TrashIcon className="h-5 w-auto pr-2" />
+							) : (
+								<ExclamationCircleIcon className="h-5 w-auto pr-2" />
+							)}
+							Delete
 						</button>
 					</div>
 				</div>
-
 				<div className="mt-8 flex flex-col">
 					<div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 							<table className="min-w-full divide-y divide-gray-300">
-								<thead className="table-header-group">
+								<thead>
 									<tr>
 										<th
 											scope="col"
@@ -147,7 +133,9 @@ const PendingTable = () => {
 													name="checkAll"
 													onChange={checkAll}
 													checked={
-														selected.length == employee.length ? true : false
+														selected.length == inActiveEmployee.length
+															? true
+															: false
 													}
 													type="checkbox"
 													className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
@@ -164,20 +152,25 @@ const PendingTable = () => {
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Email
+											Email Address
 										</th>
 										<th
 											scope="col"
 											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											Address
+											Account Status
 										</th>
-
 										<th
 											scope="col"
-											className="relative py-3.5 pl-3 pr-4 sm:pr-6 md:pr-0"
+											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
 										>
-											<span className="sr-only">active</span>
+											Associate Status
+										</th>
+										<th
+											scope="col"
+											className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
+										>
+											Last Active Date
 										</th>
 									</tr>
 								</thead>
@@ -185,7 +178,7 @@ const PendingTable = () => {
 									{!isLoaded ? (
 										<tr>
 											<td
-												colSpan={5}
+												colSpan={6}
 												className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0"
 											>
 												<div className="flex w-full items-center justify-center pt-4">
@@ -193,7 +186,7 @@ const PendingTable = () => {
 												</div>
 											</td>
 										</tr>
-									) : Object.keys(employee).length == 0 ? (
+									) : Object.keys(inActiveEmployee).length == 0 ? (
 										<tr>
 											<td>No Employee Found</td>
 										</tr>
@@ -208,23 +201,44 @@ const PendingTable = () => {
 													/>
 												</td>
 												<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
-													{person.user.username}
+													{person.username}
 												</td>
 												<td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-													{person.user.email}
+													{person.email}
 												</td>
-												<td className=" whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
-													{person.user.personal_detail?.address ??
-														"No Address Added"}
+												<td
+													className={`whitespace-nowrap  break-words py-4 px-3 text-sm font-semibold `}
+												>
+													<span
+														className={`${
+															person.status
+																? "bg-green-100 text-green-800"
+																: "bg-red-100 text-red-800"
+														} px-4 py-2`}
+													>
+														{person.status ? "Active" : "InActive"}
+													</span>
 												</td>
 
-												<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 md:pr-0">
-													<button
-														onClick={() => viewEmployee(person.id)}
-														className="text-indigo-600 hover:text-indigo-900"
+												<td
+													className={`whitespace-nowrap  break-words py-4 px-3 text-sm font-semibold `}
+												>
+													<span
+														className={`${
+															person.employee.active_flg
+																? "bg-green-100 text-green-800"
+																: "bg-red-100 text-red-800"
+														} px-4 py-2`}
 													>
-														View<span className="sr-only">, {person.id}</span>
-													</button>
+														{person.employee.active_flg ? "Active" : "InActive"}
+													</span>
+												</td>
+
+												<td className=" whitespace-nowrap break-words py-4 px-3 text-sm text-gray-500">
+													{new Date(person.updated_at).toLocaleDateString(
+														"en-Us",
+														{ day: "2-digit", month: "long", year: "numeric" }
+													)}
 												</td>
 											</tr>
 										))
@@ -262,4 +276,4 @@ const PendingTable = () => {
 	);
 };
 
-export default PendingTable;
+export default InActiveTable;

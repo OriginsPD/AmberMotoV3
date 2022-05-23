@@ -1,15 +1,18 @@
 import DotLoader from "../../components/loader/DotLoader";
+import { RentalState } from "../../constants/ApiConfig";
 
 type PenaltyTableProp = {
 	setClientID: React.Dispatch<React.SetStateAction<number>>;
-	penaltyTable: string[] | number[];
+	penaltyTable: RentalState[];
 	toggleModal: () => void;
+	isLoaded: boolean;
 };
 
 const PenaltyTable = ({
 	penaltyTable,
 	toggleModal,
 	setClientID,
+	isLoaded,
 }: PenaltyTableProp) => {
 	const viewDetails = (id: number) => {
 		setClientID(id);
@@ -68,7 +71,7 @@ const PenaltyTable = ({
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-200">
-								{Object.keys(penaltyTable).length === 0 ? (
+								{!isLoaded ? (
 									<tr>
 										<td
 											colSpan={6}
@@ -79,7 +82,16 @@ const PenaltyTable = ({
 											</div>
 										</td>
 									</tr>
-								) : Object.keys(penaltyTable).length > 0 ? (
+								) : Object.keys(penaltyTable).length === 0 ? (
+									<tr>
+										<td
+											colSpan={6}
+											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
+										>
+											No Clients With Penalty Found
+										</td>
+									</tr>
+								) : (
 									Object.values(penaltyTable).map((data) => (
 										<tr key={data.id}>
 											<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 md:pl-0">
@@ -121,15 +133,6 @@ const PenaltyTable = ({
 											</td>
 										</tr>
 									))
-								) : (
-									<tr>
-										<td
-											colSpan={6}
-											className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm font-medium text-gray-500 sm:pl-6 md:pl-0"
-										>
-											Not Data Found
-										</td>
-									</tr>
 								)}
 							</tbody>
 						</table>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useForms from "../../components/hooks/useForms";
 import useToken from "../../components/hooks/useToken";
@@ -6,6 +6,7 @@ import {
 	accessHost,
 	defaultRequest,
 	BikeListProp,
+	QueryBikeProps,
 } from "../../constants/ApiConfig";
 
 import { ReducerState, ReducerStateProp } from "../../constants/Context";
@@ -15,9 +16,19 @@ const BikeDetailApi = () => {
 	const { token } = useToken();
 	const { state, ACTIONS, dispatch } = useForms();
 
+	const [isLoaded, setIsLoad] = useState(false);
 	const [bikeList, setBikeList] = useState<BikeListProp[]>(
 		{} as BikeListProp[]
 	);
+
+	const [queryBike, setQueryBike] = useState<QueryBikeProps[]>(
+		{} as QueryBikeProps[]
+	);
+
+	const setBikeInfo = (data: { body: SetStateAction<BikeListProp[]> }) => {
+		setIsLoad(true);
+		setBikeList(data.body);
+	};
 
 	const bikeDetailIndex = async () => {
 		const response = await fetch(`${accessHost}/bikeInfo`, {
@@ -31,8 +42,8 @@ const BikeDetailApi = () => {
 		});
 		const queryResponse = await response.json();
 
-		if (queryResponse.status === 200) {
-			setBikeList(queryResponse.body);
+		if (response.status === 200) {
+			setBikeInfo(queryResponse);
 			// console.log(queryResponse.body);
 		} else {
 			console.log("failed");
@@ -60,7 +71,7 @@ const BikeDetailApi = () => {
 
 		const queryResponse = await response.json();
 
-		if (queryResponse.status === 200) {
+		if (response.status === 200) {
 			console.log(queryResponse.image);
 		} else {
 			console.log("failed");
@@ -81,12 +92,32 @@ const BikeDetailApi = () => {
 		const queryResponse = await response.json();
 
 		if (queryResponse.status === 200) {
-			setBikeList(queryResponse.body);
+			setBikeInfo(queryResponse);
 
 			dispatch({ type: ACTIONS.LOAD, payload: { ...queryResponse.body[0] } });
 			// console.log(queryResponse.body);
 		} else {
 			console.log("failed");
+		}
+	};
+
+	const BikeQuery = async (queryString: string | undefined) => {
+		const response = await fetch(`${accessHost}/searchQuery/${queryString}`, {
+			...defaultRequest,
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			},
+		});
+
+		const queryResponse = await response.json();
+
+		if (response.status == 200) {
+			setQueryBike(queryResponse.query);
+			setIsLoad(true);
+		} else {
+			console.log("missed");
 		}
 	};
 
@@ -100,21 +131,22 @@ const BikeDetailApi = () => {
 		data.append("bike_model", state.bike_model);
 		data.append("rental_fee", state.rental_fee);
 
-		const response = await fetch(`${accessHost}/bikeInfo/${id}`, {
+		const response = await fetch(`${accessHost}/bikeInfoUpdate/${id}`, {
 			...defaultRequest,
-			method: "PUT",
+			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				Accept: "application/json",
-				"Content-Type": "application/json",
+				//"Content-Type": "application/json",
 			},
-			body: JSON.stringify(state),
+			body: data,
 		});
 
-		const queryResponse = await response.json();
+		// const queryResponse = await response.json();
 
-		if (queryResponse.status === 200) {
+		if (response.status === 200) {
 			navigate("/Associate/vehicleList", { replace: true });
+			// console.log(queryResponse);
 		} else {
 			console.log("failed");
 		}
@@ -131,9 +163,9 @@ const BikeDetailApi = () => {
 			},
 		});
 
-		const queryResponse = await response.json();
+		//const queryResponse = await response.json();
 
-		if (queryResponse.status === 200) {
+		if (response.status === 200) {
 			console.log("Success");
 		} else {
 			console.log("failed");
@@ -141,11 +173,14 @@ const BikeDetailApi = () => {
 	};
 
 	return {
-		bikeDetailIndex,
-		bikeList,
-		BikeCreate,
+		isLoaded,
+		queryBike,
 		BikeFind,
+		bikeList,
+		BikeQuery,
 		BikeUpdate,
+		BikeCreate,
+		bikeDetailIndex,
 		BikeStatusUpdate,
 	};
 };

@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import {
 	LoginIcon,
 	LogoutIcon,
 	ShieldCheckIcon,
 } from "@heroicons/react/outline";
-import { MenuIcon } from "@heroicons/react/solid";
+import { ArrowCircleUpIcon, MenuIcon } from "@heroicons/react/solid";
 
 // Hooks
 import useToggle from "../hooks/useToggle";
@@ -20,8 +20,13 @@ import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
 	const { isAuth } = CheckAuth();
+	const location = useLocation();
 	const { state } = useAuth();
 	const { isOpen, toggleModal, closeModal } = useToggle();
+
+	const pathName = location.pathname;
+
+	console.log(pathName);
 
 	const navigation = [
 		{ name: "Brand", href: "/brands" },
@@ -32,6 +37,7 @@ const Navbar = () => {
 	function classNames(...classes: string[]) {
 		return classes.filter(Boolean).join(" ");
 	}
+
 	return (
 		<>
 			<AuthForm
@@ -41,17 +47,34 @@ const Navbar = () => {
 			/>
 
 			<header
-				data-aos="fade-up"
-				data-aos-anchor-placement="top-bottom"
-				className="  bg-transparent  "
+				data-aos="fade-down"
+				data-aos-anchor-placement="top-center"
+				data-aos-once={true}
+				className={`${
+					pathName == "/"
+						? "absolute inset-x-0 z-10 bg-gradient-to-b from-orange-700 via-orange-700/80 to-orange-700/5 "
+						: "border-b bg-transparent"
+				}`}
 			>
-				<div className="mx-auto max-w-screen-xl p-4">
+				<div className="mx-auto max-w-screen-xl  p-4">
 					<div className="flex items-center justify-between space-x-4 lg:space-x-10">
 						<div className="flex lg:w-0 lg:flex-1">
 							<NavLink to={"/"} className="flex h-10 w-20 items-center ">
 								<div className="flex items-center text-center">
-									<ShieldCheckIcon className="h-10 w-auto rounded-l-full  text-blue-600" />
-									<div className="rounded-r-full px-0.5 text-2xl font-bold italic text-blue-600">
+									<ShieldCheckIcon
+										className={`${
+											pathName == "/"
+												? "h-10 w-auto rounded-l-full  text-white"
+												: "h-10 w-auto rounded-l-full  text-blue-600"
+										}`}
+									/>
+									<div
+										className={`${
+											pathName === "/"
+												? "rounded-r-full px-0.5 text-2xl font-bold italic text-white"
+												: "rounded-r-full px-0.5 text-2xl font-bold italic text-blue-600"
+										}`}
+									>
 										AmberMotor
 									</div>
 								</div>
@@ -60,7 +83,13 @@ const Navbar = () => {
 
 						<nav className="hidden space-x-8 text-sm font-medium md:flex">
 							{navigation.map((nav) => (
-								<NavLink key={nav.name} className="text-gray-500" to={nav.href}>
+								<NavLink
+									key={nav.name}
+									className={`${
+										pathName == "/" ? "text-white" : "text-gray-500"
+									}`}
+									to={nav.href}
+								>
 									{nav.name}
 								</NavLink>
 							))}
@@ -71,14 +100,22 @@ const Navbar = () => {
 								<>
 									<button
 										type="button"
-										className="flex items-center space-x-1 rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500"
+										className={`${
+											pathName == "/"
+												? "flex items-center space-x-1 rounded-lg px-5 py-2 text-sm font-medium text-white"
+												: "flex items-center space-x-1 rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500"
+										}`}
 										onClick={toggleModal}
 									>
 										<LoginIcon className="h-4 w-auto" />
 										<span>Log in</span>
 									</button>
 									<NavLink
-										className="flex items-center space-x-2 rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white"
+										className={`${
+											pathName == "/"
+												? "flex items-center space-x-1 rounded-lg px-5 py-2 text-sm font-medium text-white"
+												: "flex items-center space-x-2 rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white"
+										}`}
 										to="/join"
 									>
 										<LogoutIcon className="h-4 w-auto" />
@@ -114,7 +151,7 @@ const Navbar = () => {
 									<div className="space-y-2 py-1 px-2">
 										<Menu.Item>
 											<NavLink
-												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-gray-500"
+												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-white"
 												to={"/brands"}
 											>
 												Brand
@@ -122,7 +159,7 @@ const Navbar = () => {
 										</Menu.Item>
 										<Menu.Item>
 											<NavLink
-												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-gray-500"
+												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-white"
 												to={"/catalogues"}
 											>
 												Catalogue
@@ -130,7 +167,7 @@ const Navbar = () => {
 										</Menu.Item>
 										<Menu.Item>
 											<NavLink
-												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-gray-500"
+												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-white"
 												to={"/members"}
 											>
 												Member
@@ -140,7 +177,7 @@ const Navbar = () => {
 										<Menu.Item>
 											<button
 												type="button"
-												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-gray-500"
+												className="flex w-full items-center space-x-1 rounded-lg  px-5 py-2 text-sm font-medium text-white"
 												onClick={toggleModal}
 											>
 												<LoginIcon className="h-4 w-auto" />
@@ -150,7 +187,7 @@ const Navbar = () => {
 
 										<Menu.Item>
 											<NavLink
-												className="flex items-center space-x-2 rounded-lg  px-5 py-2 text-sm font-medium text-gray-500"
+												className="flex items-center space-x-2 rounded-lg  px-5 py-2 text-sm font-medium text-white"
 												to="/join"
 											>
 												<LogoutIcon className="h-4 w-auto" />
@@ -164,6 +201,19 @@ const Navbar = () => {
 					</div>
 				</div>
 			</header>
+			<div
+				data-aos="zoom-in"
+				data-aos-offset="200"
+				data-aos-easing="ease-in-sine"
+				data-aos-duration="800"
+				className="fixed bottom-20 right-8 z-10"
+			>
+				<button className="rounded-full bg-gradient-to-tr from-orange-700 to-yellow-300 p-2">
+					<a href="#top">
+						<ArrowCircleUpIcon className="h-8 w-auto text-white" />
+					</a>
+				</button>
+			</div>
 		</>
 	);
 };
