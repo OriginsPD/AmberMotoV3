@@ -87,7 +87,7 @@ const PendingTable = () => {
 
 	useEffect(() => {
 		setPageCount(Math.ceil(Object.keys(employeePending).length / 5 - 1));
-		setCurrentEmployee(Object.values(employeePending).slice(5, 10));
+		setCurrentEmployee(Object.values(employeePending).slice(0, 5));
 	}, [employeePending]);
 	// console.log(currentEmployee);
 	return (

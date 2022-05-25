@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../components/hooks/useAuth";
 import useForms from "../../components/hooks/useForms";
 import useToken from "../../components/hooks/useToken";
+
+import AlertToast from "../../components/toast/AlertToast";
+
 import { accessHost, defaultRequest } from "../../constants/ApiConfig";
 
 const AssociateAuth = () => {
@@ -10,18 +13,22 @@ const AssociateAuth = () => {
 	const { token } = useToken();
 	const { state } = useForms();
 
+	const { AuthSuccess, AuthFailed, AuthLogout } = AlertToast();
+
 	const checkRoleStatus = async (role: number, data: any) => {
 		authorize(data);
 
 		setTimeout(() => {
-			// console.log("Missed");
+			// console.log(queryResponse.message);
 			role
 				? role == 1
 					? navigate("/", { replace: true })
 					: role == 2
 					? navigate("/Associate", { replace: true })
 					: navigate("/Admin", { replace: true })
-				: console.log("Missed");
+				: console.log(data.message);
+
+			AuthSuccess();
 		}, 500);
 	};
 
@@ -33,9 +40,10 @@ const AssociateAuth = () => {
 		});
 
 		const queryResponse = await response.json();
-		response.status === 200
+
+		queryResponse.body.status === 200
 			? checkRoleStatus(queryResponse.role, queryResponse.body)
-			: console.log("Missed");
+			: AuthFailed(queryResponse.body.message);
 	};
 
 	const loginAssociate = async () => {
@@ -46,9 +54,10 @@ const AssociateAuth = () => {
 		});
 
 		const queryResponse = await response.json();
-		response.status === 200
+
+		queryResponse.body.status === 200
 			? checkRoleStatus(queryResponse.role, queryResponse.body)
-			: console.log("Missed");
+			: AuthFailed(queryResponse.body.message);
 	};
 
 	const logout = async () => {
@@ -61,7 +70,7 @@ const AssociateAuth = () => {
 			},
 		});
 
-		response.status === 200 ? unAuthorize() : console.log("logout failed");
+		response.status === 200 ? unAuthorize() : AuthFailed("logout failed");
 
 		navigate("/", { replace: true });
 	};

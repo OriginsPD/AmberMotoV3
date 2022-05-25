@@ -245,7 +245,7 @@ const NewBikeModal = ({ isOpen, setIsOpen, toggleModal }: NewBikeProps) => {
 																				className="text-gray-500 sm:text-sm"
 																				id="price-currency"
 																			>
-																				USD
+																				JMD
 																			</span>
 																		</div>
 																	</div>

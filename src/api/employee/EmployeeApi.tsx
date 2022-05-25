@@ -6,9 +6,11 @@ import {
 	EmployeeProps,
 	InActiveUserProp,
 } from "../../constants/ApiConfig";
+import AlertToast from "../../components/toast/AlertToast";
 
 const EmployeeApi = () => {
 	const { token } = useToken();
+	const { ApprovedSuccess, ApprovedFailed } = AlertToast();
 
 	const [isLoaded, setIsLoad] = useState(false);
 
@@ -35,7 +37,6 @@ const EmployeeApi = () => {
 				...defaultRequest,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${token}`,
 					Accept: "application/json",
 				},
 			});
@@ -113,9 +114,12 @@ const EmployeeApi = () => {
 			body: urlencoded,
 		});
 
-		response.status == 200
-			? setRefresh((pre) => pre + 2)
-			: console.log("missed");
+		if (response.status == 200) {
+			setRefresh((pre) => pre + 2);
+			ApprovedSuccess();
+		} else {
+			ApprovedFailed();
+		}
 	};
 
 	return {

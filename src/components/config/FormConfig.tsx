@@ -22,11 +22,7 @@ const RegisterSchema = yup.object({
 });
 const LoginSchema = yup.object({
 	email: yup.string().email().required("Email Address is Required"),
-	password: yup
-		.string()
-		.min(4, "Password should be 4 characters or more")
-		.max(8, "Password should 8 characters or less")
-		.required("Password is Required"),
+	password: yup.string().required("Password is Required"),
 });
 
 const FormConfig = () => {

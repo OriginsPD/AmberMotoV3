@@ -1,6 +1,8 @@
 import { createContext, useEffect, useReducer } from "react";
 import { ContextProp } from "../../constants/Context";
 
+import AlertToast from "../../components/toast/AlertToast";
+
 type AuthContextProp = {
 	ACTION: typeof ACTION;
 	state: initialStateProps;
@@ -117,6 +119,7 @@ const localLog = ({ token, authInfo, isAuth }: initialStateProps) => {
 };
 
 const AuthContextProvider = ({ children }: ContextProp) => {
+	const { AuthLogout } = AlertToast();
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	// Authorize User
@@ -129,13 +132,13 @@ const AuthContextProvider = ({ children }: ContextProp) => {
 
 	// Reauthorize When Page Reloads
 	const reAuthorize = async () => {
-		const tokenString = await localStorage.getItem("token");
+		const tokenString = localStorage.getItem("token");
 		const token = tokenString ? JSON.parse(tokenString) : null;
 
-		const authString = await localStorage.getItem("authInfo");
+		const authString = localStorage.getItem("authInfo");
 		const authInfo = authString ? JSON.parse(authString) : {};
 
-		const authStateString = await localStorage.getItem("isAuth");
+		const authStateString = localStorage.getItem("isAuth");
 		const isAuth = authStateString ? JSON.parse(authStateString) : false;
 
 		const authorizeInfo = {
@@ -162,6 +165,8 @@ const AuthContextProvider = ({ children }: ContextProp) => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("isAuth");
 		localStorage.removeItem("authInfo");
+
+		AuthLogout();
 	};
 
 	useEffect(() => {

@@ -30,7 +30,7 @@ const RentalTable = () => {
 
 	useEffect(() => {
 		setPageCount(Math.ceil(rentalList.length / 5 - 1));
-		setCurrentRental(rentalList.slice(5, 10));
+		setCurrentRental(rentalList.slice(0, 5));
 	}, [rentalList]);
 
 	const handleClick = async (data: { selected: number }) => {
@@ -42,7 +42,7 @@ const RentalTable = () => {
 		setCurrentRental(rentalList.slice(firstPageIndex, lastPageIndex));
 	};
 
-	// console.log(rentalList);
+	// console.log(rePntalList);
 	return (
 		<>
 			<div className="px-4 sm:px-6 lg:px-8">

@@ -9,9 +9,11 @@ import {
 	QueryBikeProps,
 } from "../../constants/ApiConfig";
 
-import { ReducerState, ReducerStateProp } from "../../constants/Context";
+import AlertToast from "../../components/toast/AlertToast";
 
 const BikeDetailApi = () => {
+	const { CreationSuccess, CreationFailed, UpdatedSuccess, UpdatedFailed } =
+		AlertToast();
 	const navigate = useNavigate();
 	const { token } = useToken();
 	const { state, ACTIONS, dispatch } = useForms();
@@ -20,6 +22,8 @@ const BikeDetailApi = () => {
 	const [bikeList, setBikeList] = useState<BikeListProp[]>(
 		{} as BikeListProp[]
 	);
+
+	const [product, setProduct] = useState<BikeListProp>();
 
 	const [queryBike, setQueryBike] = useState<QueryBikeProps[]>(
 		{} as QueryBikeProps[]
@@ -44,7 +48,6 @@ const BikeDetailApi = () => {
 
 		if (response.status === 200) {
 			setBikeInfo(queryResponse);
-			// console.log(queryResponse.body);
 		} else {
 			console.log("failed");
 		}
@@ -64,7 +67,6 @@ const BikeDetailApi = () => {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				Accept: "application/json",
-				//"Content-Type": "application/json",
 			},
 			body: data,
 		});
@@ -72,9 +74,10 @@ const BikeDetailApi = () => {
 		const queryResponse = await response.json();
 
 		if (response.status === 200) {
-			console.log(queryResponse.image);
+			bikeDetailIndex();
+			CreationSuccess();
 		} else {
-			console.log("failed");
+			CreationFailed();
 		}
 	};
 
@@ -95,7 +98,25 @@ const BikeDetailApi = () => {
 			setBikeInfo(queryResponse);
 
 			dispatch({ type: ACTIONS.LOAD, payload: { ...queryResponse.body[0] } });
-			// console.log(queryResponse.body);
+		} else {
+			console.log("failed");
+		}
+	};
+
+	const BikeShow = async (id: undefined | string) => {
+		const response = await fetch(`${accessHost}/catalogue/${id}`, {
+			...defaultRequest,
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+		});
+
+		const queryResponse = await response.json();
+
+		if (response.status === 200) {
+			setProduct(queryResponse.body);
 		} else {
 			console.log("failed");
 		}
@@ -146,9 +167,9 @@ const BikeDetailApi = () => {
 
 		if (response.status === 200) {
 			navigate("/Associate/vehicleList", { replace: true });
-			// console.log(queryResponse);
+			UpdatedSuccess();
 		} else {
-			console.log("failed");
+			UpdatedFailed();
 		}
 	};
 
@@ -166,16 +187,18 @@ const BikeDetailApi = () => {
 		//const queryResponse = await response.json();
 
 		if (response.status === 200) {
-			console.log("Success");
+			UpdatedSuccess();
 		} else {
-			console.log("failed");
+			UpdatedFailed();
 		}
 	};
 
 	return {
 		isLoaded,
+		product,
 		queryBike,
 		BikeFind,
+		BikeShow,
 		bikeList,
 		BikeQuery,
 		BikeUpdate,

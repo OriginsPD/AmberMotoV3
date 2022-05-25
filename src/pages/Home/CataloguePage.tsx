@@ -5,6 +5,7 @@ import { documentTitle } from "../../gen/documentConfig";
 import { imageUrl } from "../../constants/ImageConfig";
 import PlusLoader from "../../components/loader/PlusLoader";
 import CountUp from "react-countup";
+import { Link } from "react-router-dom";
 
 const CataloguePage = () => {
 	const { index, vehicleCatalogue } = CatalogueApi();
@@ -28,42 +29,73 @@ const CataloguePage = () => {
 									<img
 										src={imageUrl + bike.image_path}
 										alt={"Image of Latest Bike"}
-										className="h-full w-full object-cover object-center"
+										className="h-full w-full object-cover object-center transition-all ease-linear group-hover:scale-105"
 									/>
 								</div>
 								<div className="absolute inset-0 z-20 flex h-full w-auto items-end justify-center bg-gradient-to-t from-black/80 to-transparent">
-									<div className="w-auto flex-col items-end justify-between">
-										<div className="m-5 w-full flex-col text-left text-white">
-											<h3 className="mt-4  text-2xl font-semibold ">
-												<div>
-													<span className="absolute inset-0" />
-													{bike.bike_model}
-												</div>
-											</h3>
-											<p className="text-md mt-1 ">
-												$
-												<CountUp
-													start={0}
-													end={bike.rental_fee}
-													duration={2}
-													separator={","}
-													decimal={"."}
-													decimals={2}
-												/>
-											</p>
+									<div className="w-11/12 flex-col">
+										<div className="flex w-auto items-end justify-between">
+											<div className="m-5 w-full flex-col items-center text-left text-white">
+												<h3 className="mt-4 text-2xl font-semibold ">
+													<div className="w-10/12">
+														<span className=" inset-0 break-words" />
+														{bike.bike_model}
+													</div>
+												</h3>
+												<p className="text-md mt-1 ">
+													$
+													<CountUp
+														start={0}
+														end={bike.rental_fee}
+														duration={2}
+														separator={","}
+														decimal={"."}
+														decimals={2}
+													/>
+												</p>
+											</div>
 										</div>
-
-										<div className="z-10 m-2 flex w-full items-end whitespace-nowrap text-center">
-											<a
-												href={`/${bike.id}`}
-												className="rounded-md border-2 border-white px-8 py-2 text-white"
+										<div className=" group m-4  items-end whitespace-nowrap rounded-md border-2 border-white px-8 py-2 text-center group-hover:bg-white">
+											<Link
+												to={`/product/${bike.id}`}
+												className="z-10  text-center font-bold text-white group-hover:text-black"
 											>
 												Reserve Now
-											</a>
+											</Link>
 										</div>
 									</div>
 								</div>
 							</div>
+
+							// <div
+							// 	key={bike.id}
+							// 	className="border-box xl flex h-min w-56 flex-col rounded bg-white p-1 shadow-md"
+							// >
+							// 	<div className="w-1/4 rounded-r-xl bg-red-500 text-center text-white">
+							// 		NEW
+							// 	</div>
+
+							// 	<img
+							// 		src={imageUrl + bike.image_path}
+							// 		alt={"Image of Latest Bike"}
+							// 		className="h-full w-full object-cover object-center"
+							// 	/>
+							// 	<div className="border-box flex flex-col p-1">
+							// 		<p className="text-sm text-gray-500">Category</p>
+							// 		<p>Product Name</p>
+							// 		<p>
+							// 			$58.<span className="text-sm">00</span>
+							// 		</p>
+							// 		<Link
+							// 			to={`/product/${bike.id}`}
+							// 			className="mt-2 rounded border-2 border-blue-500 py-2  text-center "
+							// 		>
+							// 			<span className=" text-sm font-medium text-blue-500">
+							// 				Reserve Now
+							// 			</span>
+							// 		</Link>
+							// 	</div>
+							// </div>
 						))}
 					</div>
 				</div>

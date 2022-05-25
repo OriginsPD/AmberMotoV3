@@ -203,7 +203,8 @@ const FormContextProvider = ({ children }: ContextProp) => {
 		},
 	];
 
-	// console.log(state);
+	// console.log(state.start_date);
+	// console.log(state.end_date);
 
 	return (
 		<FormContext.Provider

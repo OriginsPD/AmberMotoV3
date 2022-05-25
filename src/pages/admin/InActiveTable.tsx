@@ -73,7 +73,7 @@ const InActiveTable = ({ data }: InActiveTableProp) => {
 
 	useEffect(() => {
 		setPageCount(Math.ceil(Object.keys(inActiveEmployee).length / 5 - 1));
-		setCurrentEmployee(Object.values(inActiveEmployee).slice(5, 10));
+		setCurrentEmployee(Object.values(inActiveEmployee).slice(0, 5));
 	}, [inActiveEmployee]);
 
 	//console.log(inActiveEmployee);

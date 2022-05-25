@@ -65,14 +65,14 @@ const Navbar = () => {
 										className={`${
 											pathName == "/"
 												? "h-10 w-auto rounded-l-full  text-white"
-												: "h-10 w-auto rounded-l-full  text-blue-600"
+												: "h-10 w-auto rounded-l-full  text-orange-600"
 										}`}
 									/>
 									<div
 										className={`${
 											pathName === "/"
 												? "rounded-r-full px-0.5 text-2xl font-bold italic text-white"
-												: "rounded-r-full px-0.5 text-2xl font-bold italic text-blue-600"
+												: "rounded-r-full px-0.5 text-2xl font-bold italic text-orange-600"
 										}`}
 									>
 										AmberMotor
@@ -102,8 +102,8 @@ const Navbar = () => {
 										type="button"
 										className={`${
 											pathName == "/"
-												? "flex items-center space-x-1 rounded-lg px-5 py-2 text-sm font-medium text-white"
-												: "flex items-center space-x-1 rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500"
+												? "flex items-center space-x-1 rounded-lg border px-5 py-2 text-sm font-medium text-white shadow"
+												: "flex items-center space-x-1 rounded-lg border bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500 shadow"
 										}`}
 										onClick={toggleModal}
 									>
@@ -113,8 +113,8 @@ const Navbar = () => {
 									<NavLink
 										className={`${
 											pathName == "/"
-												? "flex items-center space-x-1 rounded-lg px-5 py-2 text-sm font-medium text-white"
-												: "flex items-center space-x-2 rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white"
+												? "flex items-center space-x-1 rounded-lg border border-white px-5 py-2 text-sm font-medium text-white shadow"
+												: "flex items-center space-x-2 rounded-lg border border-white bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow"
 										}`}
 										to="/join"
 									>
@@ -136,13 +136,14 @@ const Navbar = () => {
 						) : (
 							<Menu
 								as="div"
-								className="relative z-10 inline-block text-left lg:hidden"
+								className="relative z-20 inline-block text-left lg:hidden"
 							>
 								<div>
-									<Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+									<Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
 										<MenuIcon
-											className="h-5 w-5 text-white"
-											aria-hidden="true"
+											className={`h-5 w-auto ${
+												pathName == "/" ? " text-white " : " text-black "
+											}`}
 										/>
 									</Menu.Button>
 								</div>

@@ -21,6 +21,8 @@ export const ReducerState = {
 	status: false,
 	created_at: "",
 	updated_at: "",
+	start_date: "",
+	end_date: "",
 	brand: {
 		id: 0,
 		brand_nm: "",
