@@ -15,10 +15,8 @@ const Index = () => {
 					</h1>
 
 					<p className="mx-auto text-base leading-relaxed lg:w-2/3">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Accusantium, consequuntur eos omnis quasi repellat temporibus
-						voluptates. Beatae cum debitis deserunt enim illo ipsa maiores
-						molestiae natus nesciunt, optio, tempora, tenetur!.
+						Welcome to AmberMotors! We are the greatest bike rental company in
+						Jamaica.
 					</p>
 				</div>
 				<div className="-m-4 flex flex-wrap text-center">

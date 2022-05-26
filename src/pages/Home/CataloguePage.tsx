@@ -29,7 +29,7 @@ const CataloguePage = () => {
 									<img
 										src={imageUrl + bike.image_path}
 										alt={"Image of Latest Bike"}
-										className="h-full w-full object-cover object-center transition-all ease-linear group-hover:scale-105"
+										className="h-full w-full object-contain object-center transition-all ease-linear group-hover:scale-105"
 									/>
 								</div>
 								<div className="absolute inset-0 z-20 flex h-full w-auto items-end justify-center bg-gradient-to-t from-black/80 to-transparent">
@@ -55,7 +55,7 @@ const CataloguePage = () => {
 												</p>
 											</div>
 										</div>
-										<div className=" group m-4  items-end whitespace-nowrap rounded-md border-2 border-white px-8 py-2 text-center group-hover:bg-white">
+										<div className=" group m-4  items-end whitespace-nowrap rounded-md border-2 border-white px-8 py-2 text-center transition-all duration-200 group-hover:bg-white">
 											<Link
 												to={`/product/${bike.id}`}
 												className="z-10  text-center font-bold text-white group-hover:text-black"

@@ -54,6 +54,18 @@ const CatalogueApi = () => {
 		// console.log(queryResponse);
 	};
 
+	const QueryCatalogue = async () => {
+		const response = await fetch(`${accessHost}/`, {
+			...defaultRequest,
+			method: "GET",
+		});
+
+		const queryResponse = response.json();
+		if(response.status){
+			
+		}
+	};
+
 	return { index, vehicleCatalogue, isLoaded, associate, EmployeeCatalogue };
 };
 

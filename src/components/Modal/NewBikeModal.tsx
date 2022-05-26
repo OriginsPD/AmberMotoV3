@@ -100,7 +100,7 @@ const NewBikeModal = ({ isOpen, setIsOpen, toggleModal }: NewBikeProps) => {
 
 	useEffect(() => {
 		reset(state);
-	}, []);
+	}, [state]);
 
 	useEffect(() => {
 		indexBrand();

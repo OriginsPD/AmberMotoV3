@@ -69,7 +69,7 @@ const IncomeStats = () => {
 										</Fragment>
 									</div>
 									<hr className="mt-8" />
-									<div className="flex p-4">
+									{/* <div className="flex p-4">
 										<div className="w-1/2 text-center">
 											<span className="font-bold">1.8 k</span> Total Sales
 										</div>
@@ -77,7 +77,7 @@ const IncomeStats = () => {
 										<div className="w-1/2 text-center">
 											<span className="font-bold">2.0 k</span> Bike Owned
 										</div>
-									</div>
+									</div> */}
 								</div>
 							</Fragment>
 						)

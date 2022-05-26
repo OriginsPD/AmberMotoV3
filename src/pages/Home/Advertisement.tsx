@@ -14,24 +14,25 @@ import { Link } from "react-router-dom";
 
 const incentives = [
 	{
-		name: "Free Shipping",
-		description:
-			"It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
+		name: "Find The Perfect Ride",
 		imageSrc:
-			"https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg",
+			"https://cdn.pixabay.com/photo/2017/01/10/23/01/seo-1970475_960_720.png",
+		description:
+			"Search through thousands of rides and select the one that speak to you.",
 	},
 	{
-		name: "24/7 Customer Support",
+		name: "Book A Ride & Pay",
+		imageSrc:
+			"https://cdn.pixabay.com/photo/2012/04/13/18/31/money-33185_960_720.png",
 		description:
-			"Our AI chat widget is powered by a naive series of if/else statements. Guaranteed to irritate.",
-		imageSrc: "https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg",
+			"Check the available dates and put in a request or two and message the owner. Then book & pay through Stripe Or AmberPay. It’s cashless and convenient.",
 	},
 	{
-		name: "Fast Shopping Cart",
-		description:
-			"Look how fast that cart is going. What does this mean for the actual experience? I don't know.",
+		name: "Offer A Ride And Make Income",
 		imageSrc:
-			"https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg",
+			"https://cdn.pixabay.com/photo/2017/03/08/14/20/flat-2126876_960_720.png",
+		description:
+			"Make up to $500/month by sharing your the motor bike experience",
 	},
 ];
 
@@ -40,9 +41,13 @@ const features = [
 	{
 		name: "Material",
 		description:
-			"The overall experience from sign up to going live was nothing less than outstanding. Very knowledgeable and most all human!",
+			"A commute + exercise - parking struggles? Win! I've been happily Indegoing for over a year & I love it.",
 	},
-	{ name: "Dimensions", description: '15" x 3.75" x .75"' },
+	{
+		name: "Dimensions",
+		description:
+			"I have a bike that I love, but for getting around town, the flexibility of being able to take an Indego and leave it there, is just a no-brainer.  On top of that, $17/mo is less expensive than having even a cheap bike stolen on average every 3 years, leaving aside maintenance costs",
+	},
 	{
 		name: "Finish",
 		description:
@@ -144,48 +149,48 @@ const Advertisement = () => {
 								</div>
 							))}
 						</div>
-
-						<div className="mt-6 sm:hidden">
-							<a
-								href="#"
-								className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-							>
-								Browse all favorites<span aria-hidden="true"> &rarr;</span>
-							</a>
-						</div>
 					</div>
 				</div>
 			</section>
 
 			{/* Incentive */}
 			<section className="overflow-hidden">
-				<div className="bg-inherit">
-					<div className="mx-auto max-w-7xl py-8 sm:px-2 sm:py-10 lg:px-4">
-						<div className="mx-auto grid max-w-2xl grid-cols-1 gap-y-10 gap-x-8 px-4 lg:max-w-none lg:grid-cols-3">
-							{incentives.map((incentive) => (
-								<div
-									key={incentive.name}
-									className="text-center sm:flex sm:text-left lg:block lg:text-center"
-								>
-									<div className="sm:flex-shrink-0">
-										<div className="flow-root">
-											<img
-												className="mx-auto h-24 w-28"
-												src={incentive.imageSrc}
-												alt=""
-											/>
-										</div>
-									</div>
-									<div className="mt-3 sm:mt-0 sm:ml-3 lg:mt-3 lg:ml-0">
-										<h3 className="text-sm font-medium text-gray-900">
-											{incentive.name}
-										</h3>
-										<p className="mt-2 text-sm text-gray-500">
-											{incentive.description}
-										</p>
-									</div>
+				<div className="bg-white">
+					<div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+						<div className="rounded-2xl bg-white px-6 py-16 sm:p-16">
+							<div className="mx-auto max-w-xl lg:max-w-none">
+								<div className="text-center">
+									<h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+										WE ARE THE BEST MOTOR BIKE RENTAL SERVICE PROVIDER FOR YOU
+									</h2>
 								</div>
-							))}
+								<div className="mx-auto mt-12 grid max-w-sm grid-cols-1 gap-y-10 gap-x-8 sm:max-w-none lg:grid-cols-3">
+									{incentives.map((incentive) => (
+										<div
+											key={incentive.name}
+											className="text-center sm:flex sm:text-left lg:block lg:text-center"
+										>
+											<div className="sm:flex-shrink-0">
+												<div className="flow-root">
+													<img
+														className="mx-auto h-16 w-16"
+														src={incentive.imageSrc}
+														alt=""
+													/>
+												</div>
+											</div>
+											<div className="mt-3 sm:mt-0 sm:ml-6 lg:mt-6 lg:ml-0">
+												<h3 className="text-sm font-medium text-gray-900">
+													{incentive.name}
+												</h3>
+												<p className="mt-2 text-sm text-gray-500">
+													{incentive.description}
+												</p>
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -292,11 +297,11 @@ const Advertisement = () => {
 			>
 				<div aria-hidden="true" className="relative">
 					<img
-						src="https://cdn.pixabay.com/photo/2020/10/27/11/48/motorcycle-5690477_960_720.jpg"
+						src="https://i.ibb.co/sykLRM2/shutterstock-755495890.jpg"
 						alt=""
 						className="h-96 w-full object-cover object-center"
 					/>
-					<div className="absolute inset-0 bg-gradient-to-t from-white" />
+					<div className="absolute inset-0 bg-gradient-to-t from-white via-black/50 to-white" />
 				</div>
 
 				<div className="relative mx-auto -mt-12 max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24 lg:px-8">

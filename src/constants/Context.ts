@@ -10,7 +10,7 @@ export const ReducerState = {
 	password: "",
 	password_confirmation: "",
 	mode: false,
-	id: 0,
+	id: "0",
 	employee_id: 0,
 	brand_id: "",
 	category_id: "",
@@ -46,7 +46,7 @@ export type ReducerStateProp = {
 	password: string;
 	password_confirmation: string;
 	mode: boolean;
-	id: number;
+	id: string;
 	employee_id: number;
 	brand_id: number;
 	category_id: number;

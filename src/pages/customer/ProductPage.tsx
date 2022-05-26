@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Icons
 import {
@@ -26,6 +26,12 @@ import { imageUrl } from "../../constants/ImageConfig";
 // Count Op
 import CountUp from "react-countup";
 import useForms from "../../components/hooks/useForms";
+import RentalApi from "../../api/rental/RentalApi";
+
+// Validation
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -33,19 +39,49 @@ function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
 }
 
+const schema = yup.object({
+	start_date: yup.string().required("Please Start Date is Required"),
+	end_date: yup.string().required("Please Return Date is Required"),
+	// rental_fee: yup.string().required("Rental Fee is Required"),
+});
+
 const ProductPage = () => {
 	const [collectDate, setCollectDate] = useState<string>(
 		JSON.stringify(new Date())
 	);
+	const { rentalCreate } = RentalApi();
 	const [loaded, setLoaded] = useState(false);
 	const { id } = useParams();
 
-	const { storeInfo } = useForms();
+	const { storeInfo, resetInfo, state, loadID } = useForms();
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		clearErrors,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
+
+	const clearForm = () => {
+		clearErrors();
+		reset(state);
+		resetInfo();
+	};
 
 	const { BikeShow, product } = BikeDetailApi();
 
+	const onSubmit = () => {
+		// event.preventDefault();
+		rentalCreate();
+		setLoaded(true);
+	};
+
 	useEffect(() => {
 		BikeShow(id);
+		loadID(id);
 	}, []);
 
 	// console.log(product?.bike_model);
@@ -323,15 +359,25 @@ const ProductPage = () => {
 							Product options
 						</h2>
 
-						<div>
+						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className="sm:flex sm:justify-between">
 								{/* Size selector */}
 								<div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
 									<label htmlFor="PickUp Date"> Pick Up Date</label>
 
-									<input type="date" name="start_date" onChange={storeInfo} />
+									<input
+										type="date"
+										name="start_date"
+										onChange={storeInfo}
+										value={state.start_date}
+									/>
 									<label htmlFor="PickUp Date"> Return Date</label>
-									<input type="date" name="start_date" onChange={storeInfo} />
+									<input
+										type="date"
+										name="end_date"
+										onChange={storeInfo}
+										value={state.end_date}
+									/>
 								</div>
 							</div>
 							<div className="mt-4">
@@ -350,7 +396,7 @@ const ProductPage = () => {
 								{product?.availability ? (
 									<button
 										type="submit"
-										onClick={() => setLoaded(() => true)}
+										onClick={onSubmit}
 										className="flex w-full items-center justify-center space-x-3 rounded-md border border-transparent bg-orange-600 py-3 px-8 text-base font-medium capitalize text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50"
 									>
 										<RefreshIcon
@@ -362,8 +408,7 @@ const ProductPage = () => {
 									</button>
 								) : (
 									<button
-										type="submit"
-										onClick={() => setLoaded(() => true)}
+										disabled
 										className="flex w-full items-center justify-center space-x-3 rounded-md border border-transparent bg-red-600 py-3 px-8 text-base font-medium capitalize text-white hover:bg-red-700 focus:outline-none "
 									>
 										<BanIcon className={`h-6 w-auto `} />
@@ -382,8 +427,43 @@ const ProductPage = () => {
 									</span>
 								</div>
 							</div>
-						</div>
+						</form>
 					</section>
+					{/* {Object.keys(errors).length === 0 ? null : (
+						<div className="mt-4 rounded-md bg-gray-50 p-5 ">
+							<div className="flex">
+								<div className="flex-shrink-0">
+									<svg
+										className="h-5 w-5 text-red-400"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fillRule="evenodd"
+											d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+											clipRule="evenodd"
+										></path>
+									</svg>
+								</div>
+								<div className="ml-3">
+									<h3 className="text-sm font-medium text-red-800">
+										There were {Object.keys(errors).length} errors with your
+										submission
+									</h3>
+									<div className="mt-2 text-sm text-red-700">
+										<ul role="list" className="list-disc space-y-1 pl-5">
+											{errors.start_date && (
+												<li> {errors.start_date?.message} </li>
+											)}
+											{errors.end_date && <li> {errors.email?.message} </li>}
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					)} */}
 				</div>
 			</div>
 		</div>

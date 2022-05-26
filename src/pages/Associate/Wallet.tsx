@@ -8,10 +8,13 @@ import { rentalStatusProp } from "../../constants/ApiConfig";
 import PaymentLogTable from "./PaymentLogTable";
 
 import CountUp from "react-countup";
+import { Fragment } from "react";
+import useUserInfo from "../../components/hooks/useUserInfo";
 
 const Wallet = () => {
 	const { statusIndex, rentalStatus } = RentalApi();
 	const { index, amount, logInfo } = AmberPayApi();
+	const { authInfo } = useUserInfo();
 
 	useEffect(() => {
 		index();
@@ -35,7 +38,7 @@ const Wallet = () => {
 				<div className="container mx-auto items-center">
 					<div className="flex-auto items-center justify-center lg:flex">
 						<div className="  flex w-3/4 items-center justify-center  p-2  ">
-							<div className="mx-auto">
+							{/* <div className="mx-auto">
 								<div className=" my-2 flex items-center justify-center  text-center">
 									<div>
 										<h1 className="mx-auto mb-8 w-full text-2xl font-bold leading-none tracking-tighter text-black lg:text-2xl lg:uppercase">
@@ -68,7 +71,52 @@ const Wallet = () => {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> */}
+
+							<Fragment>
+								<div className="card mx-auto w-full flex-col items-center justify-center  ">
+									<div className="my-2 w-full bg-gray-50 text-center ">
+										<h1 className="mx-auto mb-4 w-full text-2xl font-bold leading-none tracking-tighter text-black lg:text-2xl lg:uppercase">
+											Accumulated Income
+										</h1>
+									</div>
+									<img
+										className="mx-auto mt-20  w-32 rounded-full border-8 border-white"
+										src={`https://ui-avatars.com/api/?background=ff6600&color=fff&name=${authInfo?.username}`}
+										alt=""
+									/>
+									<div className="mt-2 text-center text-3xl font-medium">
+										{authInfo?.username}
+									</div>
+									<div className="mt-2 text-center text-sm font-light">
+										{authInfo?.email}
+									</div>
+
+									<div className="mt-2 px-6 text-center text-3xl font-light">
+										<Fragment>
+											${" "}
+											<CountUp
+												start={0}
+												end={amount}
+												duration={5}
+												separator={","}
+												decimal={"."}
+												decimals={2}
+											/>
+										</Fragment>
+									</div>
+									<hr className="mt-8" />
+									{/* <div className="flex p-4">
+										<div className="w-1/2 text-center">
+											<span className="font-bold">1.8 k</span> Total Sales
+										</div>
+										<div className="w-0 border border-gray-300"></div>
+										<div className="w-1/2 text-center">
+											<span className="font-bold">2.0 k</span> Bike Owned
+										</div>
+									</div> */}
+								</div>
+							</Fragment>
 						</div>
 						<div className="mx-auto  mt-8 w-full ">
 							<div

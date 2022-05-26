@@ -30,7 +30,7 @@ type BikeDetailCardProps = {
 };
 
 const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
-	console.log(query);
+	// console.log(query);
 
 	let imageSrc = query ? imageUrl + query?.bike?.image_path : product.imageSrc;
 
@@ -133,14 +133,14 @@ const BikeDetailCard = ({ query }: BikeDetailCardProps) => {
 				<div
 					className={`mt-10 ${
 						query ? "" : "h-full"
-					} h-96 max-w-2xl border lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center`}
+					} h-96 max-w-2xl  lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center`}
 				>
 					{query ? (
 						<div className="aspect-w-1 aspect-h-1 h-full overflow-hidden rounded-lg">
 							<img
 								src={imageSrc}
 								alt={product.imageAlt}
-								className="h-full w-full object-cover object-center"
+								className="h-full w-full object-contain object-center"
 							/>
 						</div>
 					) : (

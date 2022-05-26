@@ -12,6 +12,7 @@ type FormContextProps = {
 	loginForm: FormBody[];
 	RegisterForm: FormBody[];
 	resetInfo: () => void;
+	loadID: (id: any) => void;
 	storeInfo: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	storeImage: (data: FileList | null) => void;
 	dispatch: React.Dispatch<ReducerAction>;
@@ -23,6 +24,7 @@ export const FormContext = createContext<FormContextProps>(
 
 enum ACTIONS {
 	CREATE = "create-new-info",
+	BIKELOAD = "store-Bike-ID",
 	LOAD = "load-bike-info",
 	IMAGE = "upload-bike-image",
 	CHANGE = "change-mode",
@@ -83,6 +85,12 @@ type ReducerAction =
 			};
 	  }
 	| {
+			type: ACTIONS.BIKELOAD;
+			payload: {
+				value: any;
+			};
+	  }
+	| {
 			type: ACTIONS.RESET;
 	  };
 
@@ -107,6 +115,11 @@ const reducer = (state: typeof ReducerState, action: ReducerAction) => {
 			return {
 				...state,
 				["image_path"]: action.payload,
+			};
+		case ACTIONS.BIKELOAD:
+			return {
+				...state,
+				["id"]: action.payload.value,
 			};
 		case ACTIONS.RESET:
 			return {
@@ -141,6 +154,10 @@ const FormContextProvider = ({ children }: ContextProp) => {
 		// });
 
 		console.log(details?.type);
+	};
+
+	const loadID = (id: any) => {
+		dispatch({ type: ACTIONS.BIKELOAD, payload: { value: id } });
 	};
 
 	const resetInfo = () => {
@@ -204,7 +221,7 @@ const FormContextProvider = ({ children }: ContextProp) => {
 	];
 
 	// console.log(state.start_date);
-	// console.log(state.end_date);
+	// console.log(state);
 
 	return (
 		<FormContext.Provider
@@ -212,6 +229,7 @@ const FormContextProvider = ({ children }: ContextProp) => {
 				ACTIONS,
 				state,
 				dispatch,
+				loadID,
 				storeInfo,
 				resetInfo,
 				loginForm,

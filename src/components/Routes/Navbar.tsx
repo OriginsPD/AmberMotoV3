@@ -52,7 +52,7 @@ const Navbar = () => {
 				data-aos-once={true}
 				className={`${
 					pathName == "/"
-						? "absolute inset-x-0 z-10 bg-gradient-to-b from-orange-700 via-orange-700/80 to-orange-700/5 "
+						? "absolute inset-x-0 z-10 bg-gradient-to-b from-black/80  to-transparent "
 						: "border-b bg-transparent"
 				}`}
 			>
@@ -86,7 +86,7 @@ const Navbar = () => {
 								<NavLink
 									key={nav.name}
 									className={`${
-										pathName == "/" ? "text-white" : "text-gray-500"
+										pathName == "/" ? "text-white " : "text-gray-800"
 									}`}
 									to={nav.href}
 								>
@@ -102,7 +102,7 @@ const Navbar = () => {
 										type="button"
 										className={`${
 											pathName == "/"
-												? "flex items-center space-x-1 rounded-lg border px-5 py-2 text-sm font-medium text-white shadow"
+												? "flex items-center space-x-1 rounded-lg border px-5 py-2 text-sm font-medium text-white shadow hover:bg-white hover:text-black"
 												: "flex items-center space-x-1 rounded-lg border bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500 shadow"
 										}`}
 										onClick={toggleModal}
@@ -113,7 +113,7 @@ const Navbar = () => {
 									<NavLink
 										className={`${
 											pathName == "/"
-												? "flex items-center space-x-1 rounded-lg border border-white px-5 py-2 text-sm font-medium text-white shadow"
+												? "flex items-center space-x-1 rounded-lg border border-white px-5 py-2 text-sm font-medium text-white shadow hover:bg-white hover:text-black"
 												: "flex items-center space-x-2 rounded-lg border border-white bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow"
 										}`}
 										to="/join"

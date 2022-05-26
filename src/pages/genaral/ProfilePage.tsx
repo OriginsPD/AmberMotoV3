@@ -6,7 +6,7 @@ const ProfilePage = () => {
 	const { pathname } = useLocation();
 	const { authInfo } = useUserInfo();
 
-	console.log(pathname);
+	// console.log(pathname);
 	return (
 		<Fragment>
 			<div className="space-y-4">
